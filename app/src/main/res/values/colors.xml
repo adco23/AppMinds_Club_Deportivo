@@ -7,4 +7,5 @@
     <color name="dark_green">#10b981</color>
     <color name="desabledBg">#FBFBFB</color>
     <color name="desabledTxt">#9EA0A8</color>
+    <color name="gray_400">#989898</color>
 </resources>

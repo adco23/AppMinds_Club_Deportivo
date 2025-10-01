@@ -13,7 +13,7 @@
 
         <include layout="@layout/banner_initial"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
         <TextView
             android:id="@+id/txtMensaje"
@@ -25,6 +25,5 @@
             android:textAlignment="viewEnd"
             android:textColor="@color/green"
             android:textSize="18sp" />
-<!--    </LinearLayout>-->
 
 </LinearLayout>
