@@ -1,9 +1,31 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.ClubDeportivo" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">@color/main</item>
+        <item name="android:editTextStyle">@style/StyleEditText</item>
+        <item name="android:editTextBackground">@drawable/bg_input</item>
     </style>
 
     <style name="Theme.ClubDeportivo" parent="Base.Theme.ClubDeportivo" />
+
+    <style name="StyleEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">8sp</item>
+    </style>
+
+    <style name="ButtonPrimary">
+        <item name="android:background">@drawable/btn_primary</item>
+        <item name="cornerRadius">8sp</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/main</item>
+    </style>
+
+    <style name="Window">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">48dp</item>
+    </style>
 </resources>
