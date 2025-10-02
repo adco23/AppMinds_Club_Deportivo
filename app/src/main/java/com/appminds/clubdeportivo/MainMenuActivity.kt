@@ -1,5 +1,6 @@
 package com.appminds.clubdeportivo
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -7,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import com.appminds.clubdeportivo.profesor.ProfesorMenuActivity
 
 class MainMenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +23,7 @@ class MainMenuActivity : AppCompatActivity() {
             val button = AppCompatButton(this).apply {
                 text = label
                 setAllCaps(true)
-                background = ContextCompat.getDrawable(context, R.drawable.btn_regular)
+                background = ContextCompat.getDrawable(context, R.drawable.bg_btn_regular)
 
 
                 val params = LinearLayout.LayoutParams(
@@ -39,11 +41,16 @@ class MainMenuActivity : AppCompatActivity() {
                     "Registrar pago" -> Toast.makeText(this, "Registrar pago", Toast.LENGTH_SHORT).show()
                     "Socios con cuotas vencidas" -> Toast.makeText(this, "Socios con cuotas vencidas", Toast.LENGTH_SHORT).show()
                     "Actividades" -> Toast.makeText(this, "Actividades", Toast.LENGTH_SHORT).show()
-                    "Profesores" -> Toast.makeText(this, "Profesores", Toast.LENGTH_SHORT).show()
+                    "Profesores" -> this.goToProfesores()
                 }
             }
 
             menuContainer.addView(button)
         }
+    }
+
+    private fun goToProfesores() {
+        val intent = Intent(this, ProfesorMenuActivity::class.java)
+        startActivity(intent)
     }
 }

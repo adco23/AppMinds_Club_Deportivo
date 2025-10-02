@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Window">
+
+    <!-- Header común -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp">
+
+        <!-- Botón atrás -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/BtnBack"
+            android:contentDescription="@string/btn_back_description" />
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/add_profesor"
+            android:paddingHorizontal="10dp"
+            style="@style/MainTitle"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/profesorOptContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/inputFirstname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:hint="Nombre"/>
+
+        <EditText
+            android:id="@+id/inputLastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:hint="Apellido"/>
+
+        <EditText
+            android:id="@+id/inputDNI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:hint="DNI"/>
+
+        <EditText
+            android:id="@+id/inputAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:hint="Domicilio"/>
+
+        <EditText
+            android:id="@+id/inputPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:hint="Teléfono"
+            android:inputType="phone"/>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbIsSuplente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Es suplente"
+            android:textSize="20dp"
+            android:textColor="@color/green"
+            app:buttonTint="@color/checkbox_tint"
+            android:padding="8dp"/>
+
+
+    </LinearLayout>
+</LinearLayout>
