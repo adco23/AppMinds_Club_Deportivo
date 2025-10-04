@@ -62,9 +62,7 @@ class AddProfesorActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        btnBack.setOnClickListener {
-            startActivity(Intent(this, MainMenuActivity::class.java))
-        }
+        btnBack.setOnClickListener { finish() }
     }
 
     private fun checkForm() {

@@ -40,17 +40,14 @@ class ProfesorMenuActivity : AppCompatActivity() {
             button.setOnClickListener {
                 when (label) {
                     "Agregar profesor" -> startActivity(Intent(this, AddProfesorActivity::class.java))
-                    "Asistencia" -> Toast.makeText(this, "Asistencia", Toast.LENGTH_SHORT).show()
-                    "Plantel" -> Toast.makeText(this, "Plantel", Toast.LENGTH_SHORT).show()
+                    "Asistencia" -> startActivity(Intent(this, ProfesorAttendanceActivity::class.java))
+                    "Plantel" -> startActivity(Intent(this, PlantelActivity::class.java))
                 }
             }
 
             menuContainer.addView(button)
         }
 
-        btnBack.setOnClickListener {
-            val intent = Intent(this, MainMenuActivity::class.java)
-            startActivity(intent)
-        }
+        btnBack.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
     }
 }

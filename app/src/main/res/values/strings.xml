@@ -4,6 +4,8 @@
     <string name="add_profesor">Registrar profesor</string>
     <string name="add_profesor_OK">¡Profesor registrado con éxito!</string>
     <string name="attendance_profesor">Asistencia</string>
+    <string name="plantel">Plantel</string>
+    <string name="detail_profesor">Detalle</string>
     <string name="btn_back_description">Botón para volver atrás</string>
     <string-array name="options_example">
         <item />
