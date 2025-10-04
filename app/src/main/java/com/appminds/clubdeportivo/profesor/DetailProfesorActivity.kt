@@ -1,16 +1,16 @@
 package com.appminds.clubdeportivo.profesor
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.isVisible
 import com.appminds.clubdeportivo.R
-import com.appminds.clubdeportivo.models.PlantelItemDto
+import com.appminds.clubdeportivo.models.ProfesorDto
 
 class DetailProfesorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,11 +18,12 @@ class DetailProfesorActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_detail_profesor)
 
-        val profesor = intent.getSerializableExtra("profesor") as? PlantelItemDto
+        val profesor = intent.getSerializableExtra("profesor") as? ProfesorDto
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        val btnGoToUpdate = findViewById<AppCompatButton>(R.id.btnUpdateProfesor)
 
         profesor?.let {
-            findViewById<TextView>(R.id.tvProfesorName).text = it.fullname
+            "${it.firstname} ${it.lastname}".also { findViewById<TextView>(R.id.tvProfesorName).text = it }
             findViewById<TextView>(R.id.tvDni).text = it.dni
             findViewById<TextView>(R.id.tvAddress).text = it.address
             findViewById<TextView>(R.id.tvPhone).text = it.phone
@@ -30,5 +31,12 @@ class DetailProfesorActivity : AppCompatActivity() {
         }
 
         btnBack.setOnClickListener { finish() }
+        btnGoToUpdate.setOnClickListener {
+            val intent = Intent(this, UpdateProfesorActivity::class.java).apply {
+                putExtra("profesor", profesor)
+            }
+            startActivity(intent)
+        }
+
     }
 }

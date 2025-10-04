@@ -2,6 +2,7 @@
     <string name="app_name">Club Deportivo</string>
     <string name="profesor_menu">Profesores</string>
     <string name="add_profesor">Registrar profesor</string>
+    <string name="update_profesor">Modificar profesor</string>
     <string name="add_profesor_OK">¡Profesor registrado con éxito!</string>
     <string name="attendance_profesor">Asistencia</string>
     <string name="plantel">Plantel</string>
@@ -9,10 +10,10 @@
     <string name="btn_back_description">Botón para volver atrás</string>
     <string-array name="options_example">
         <item />
-        <item>Opción 1</item>
-        <item>Opción 2</item>
-        <item>Opción 3</item>
-        <item>Opción 4</item>
-        <item>Opción 5</item>
+        <item>Natación</item>
+        <item>Fútbol</item>
+        <item>Gimnasia</item>
+        <item>Tenis</item>
+        <item>Yoga</item>
     </string-array>
 </resources>
