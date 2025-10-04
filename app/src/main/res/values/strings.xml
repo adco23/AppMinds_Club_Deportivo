@@ -6,5 +6,9 @@
     <string name="buscar">Buscar</string>
     <string name="registrarpago">"Registrar\npago"</string>
     <string name="dni">"DNI"</string>
+    <string name="cliente">"Cliente"</string>
+    <string name="nombre_apellido">"Nombre y Apellido"</string>
+    <string name="socio">"Socio"</string>
+
 
 </resources>
