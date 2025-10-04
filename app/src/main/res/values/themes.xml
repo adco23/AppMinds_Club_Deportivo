@@ -28,6 +28,18 @@
         <item name="android:textColor">@color/btn_text_color</item>
     </style>
 
+    <style name="ButtonOptionGreen">
+        <item name="android:background">@drawable/bg_btn_green_option</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/btn_text_color</item>
+    </style>
+
+    <style name="ButtonOptionRed">
+        <item name="android:background">@drawable/bg_btn_red_option</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/btn_text_color</item>
+    </style>
+
     <style name="Window">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>

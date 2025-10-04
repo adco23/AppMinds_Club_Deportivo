@@ -8,4 +8,7 @@
     <color name="desabledBg">#FBFBFB</color>
     <color name="desabledTxt">#9EA0A8</color>
     <color name="gray_400">#989898</color>
+    <color name="rose">#fcb3ad</color>
+    <color name="dark_rose">#c98e89</color>
+    <color name="red">#fcb3ad</color>
 </resources>
