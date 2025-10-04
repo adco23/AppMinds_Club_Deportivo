@@ -21,6 +21,7 @@ class DetailProfesorActivity : AppCompatActivity() {
         val profesor = intent.getSerializableExtra("profesor") as? ProfesorDto
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         val btnGoToUpdate = findViewById<AppCompatButton>(R.id.btnUpdateProfesor)
+        val btnDelete = findViewById<AppCompatButton>(R.id.btnDeleteProfesor)
 
         profesor?.let {
             "${it.firstname} ${it.lastname}".also { findViewById<TextView>(R.id.tvProfesorName).text = it }
@@ -28,6 +29,7 @@ class DetailProfesorActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.tvAddress).text = it.address
             findViewById<TextView>(R.id.tvPhone).text = it.phone
             findViewById<TableRow>(R.id.trIsSubstitute).isVisible = it.isSubstitute
+            findViewById<TextView>(R.id.tvActividad).text = it.activity
         }
 
         btnBack.setOnClickListener { finish() }
@@ -36,6 +38,15 @@ class DetailProfesorActivity : AppCompatActivity() {
                 putExtra("profesor", profesor)
             }
             startActivity(intent)
+        }
+        btnDelete.setOnClickListener {
+            val intent = Intent(this, ProfesorConfirmActivity::class.java)
+            intent.putExtra("message", "¡Profesor eliminado con éxito!")
+            intent.putExtra("labelBtn", "Volver a menú")
+            intent.putExtra("goTo", PlantelActivity::class.java)
+
+            startActivity(intent)
+            finish()
         }
 
     }

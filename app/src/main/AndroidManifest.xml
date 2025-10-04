@@ -24,7 +24,7 @@
             android:name=".profesor.ProfesorAttendanceActivity"
             android:exported="false" />
         <activity
-            android:name=".profesor.AddProfesorConfirmActivity"
+            android:name=".profesor.ProfesorConfirmActivity"
             android:exported="false" />
         <activity
             android:name=".profesor.AddProfesorStep2Activity"

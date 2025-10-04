@@ -13,7 +13,7 @@
 
         <!-- Botón atrás -->
         <ImageButton
-            android:id="@+id/btnGoToAddProfesorForm"
+            android:id="@+id/btnGoToBack"
             style="@style/BtnBack"
             android:contentDescription="@string/btn_back_description" />
     </RelativeLayout>
@@ -29,6 +29,7 @@
 
         <!-- Título -->
         <TextView
+            android:id="@+id/tvMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

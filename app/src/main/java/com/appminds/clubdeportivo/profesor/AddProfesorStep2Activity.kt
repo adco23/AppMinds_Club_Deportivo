@@ -9,7 +9,6 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -69,7 +68,13 @@ class AddProfesorStep2Activity : AppCompatActivity() {
 
         btnBack.setOnClickListener { finish() }
         btnSave.setOnClickListener {
-            startActivity(Intent(this, AddProfesorConfirmActivity::class.java))
+            val intent = Intent(this, ProfesorConfirmActivity::class.java)
+            intent.putExtra("message", "¡Profesor registrado con éxito!")
+            intent.putExtra("labelBtn", "Volver a menú")
+            intent.putExtra("goTo", AddProfesorActivity::class.java)
+
+            startActivity(intent)
+            finish()
         }
 
     }

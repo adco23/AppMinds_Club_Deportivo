@@ -1,5 +1,6 @@
 package com.appminds.clubdeportivo.profesor
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -84,7 +85,15 @@ class UpdateProfesorActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        btnSave.setOnClickListener { finish() }
+        btnSave.setOnClickListener {
+            val intent = Intent(this, ProfesorConfirmActivity::class.java)
+            intent.putExtra("message", "¡Profesor modificado con éxito!")
+            intent.putExtra("labelBtn", "Volver a menú")
+            intent.putExtra("goTo", PlantelActivity::class.java)
+
+            startActivity(intent)
+            finish()
+        }
 
     }
 }
