@@ -12,9 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClubDeportivo">
         <activity
-            android:name=".profesor.AddProfesorActivity"
+            android:name=".profesor.AddProfesorStep2Activity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".profesor.AddProfesorActivity"
+            android:exported="false"/>
         <activity
             android:name=".profesor.ProfesorMenuActivity"
             android:exported="false" />

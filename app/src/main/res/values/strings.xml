@@ -3,4 +3,12 @@
     <string name="profesor_menu">Profesores</string>
     <string name="add_profesor">Registrar profesor</string>
     <string name="btn_back_description">Botón para volver atrás</string>
+    <string-array name="options_example">
+        <item />
+        <item>Opción 1</item>
+        <item>Opción 2</item>
+        <item>Opción 3</item>
+        <item>Opción 4</item>
+        <item>Opción 5</item>
+    </string-array>
 </resources>
