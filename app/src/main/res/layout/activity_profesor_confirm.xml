@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="40dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Botón atrás -->
+        <ImageButton
+            android:id="@+id/btnGoToBack"
+            style="@style/BtnBack"
+            android:contentDescription="@string/btn_back_description" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/profesorOptContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="50dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/add_profesor_OK"
+            android:paddingHorizontal="35sp"
+            style="@style/MainTitle"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_check_circle"/>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnGoToMainMenu"
+        style="@style/ButtonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volver al menú"
+        android:textAllCaps="false" />
+
+</LinearLayout>
