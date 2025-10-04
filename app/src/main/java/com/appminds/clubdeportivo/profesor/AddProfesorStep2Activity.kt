@@ -8,18 +8,18 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Spinner
-import android.widget.TableLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.isVisible
-import com.appminds.clubdeportivo.MainMenuActivity
 import com.appminds.clubdeportivo.R
 import com.appminds.clubdeportivo.models.AddProfesorDto
 
 class AddProfesorStep2Activity : AppCompatActivity() {
+    private lateinit var updateProfesor: AddProfesorDto
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,7 +28,7 @@ class AddProfesorStep2Activity : AppCompatActivity() {
         val profesor = intent.getSerializableExtra("profesor") as? AddProfesorDto
 
         val btnBack: ImageButton = findViewById(R.id.btnBack)
-        val btnNext: AppCompatButton = findViewById(R.id.btnAddProfNext2)
+        val btnSave: AppCompatButton = findViewById(R.id.btnAddProfSave)
         val spinner: Spinner = findViewById(R.id.spinnerOptions)
         val container: LinearLayout = findViewById(R.id.ActivitySelectedContainer)
         val txtSelected: TextView = findViewById(R.id.ActivitySelected)
@@ -51,12 +51,14 @@ class AddProfesorStep2Activity : AppCompatActivity() {
 
                 if(selection.isNotBlank()) {
                     container.isVisible = true
-                    btnNext.isEnabled = true
+                    btnSave.isEnabled = true
                     txtSelected.text = selection
+                    updateProfesor = profesor?.copy(activity = selection)!!
                 }
                 if(selection.isBlank()) {
                     container.isVisible = false
-                    btnNext.isEnabled = false
+                    btnSave.isEnabled = false
+                    profesor?.activity = null
                 }
             }
 
@@ -66,9 +68,8 @@ class AddProfesorStep2Activity : AppCompatActivity() {
         }
 
         btnBack.setOnClickListener { finish() }
-        btnNext.setOnClickListener {
-//            val intent = Intent(this, MainMenuActivity::class.java)
-//            startActivity(intent)
+        btnSave.setOnClickListener {
+            startActivity(Intent(this, AddProfesorConfirmActivity::class.java))
         }
 
     }

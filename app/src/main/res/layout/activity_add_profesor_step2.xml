@@ -109,12 +109,12 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnAddProfNext2"
+        android:id="@+id/btnAddProfSave"
         style="@style/ButtonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:text="Siguiente"
+        android:text="Guardar"
         android:textAllCaps="false" />
 
 </LinearLayout>

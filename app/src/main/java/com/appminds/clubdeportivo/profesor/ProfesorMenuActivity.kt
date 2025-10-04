@@ -39,10 +39,7 @@ class ProfesorMenuActivity : AppCompatActivity() {
 
             button.setOnClickListener {
                 when (label) {
-                    "Agregar profesor" -> {
-                        val intent = Intent(this, AddProfesorActivity::class.java)
-                        startActivity(intent)
-                    }
+                    "Agregar profesor" -> startActivity(Intent(this, AddProfesorActivity::class.java))
                     "Asistencia" -> Toast.makeText(this, "Asistencia", Toast.LENGTH_SHORT).show()
                     "Plantel" -> Toast.makeText(this, "Plantel", Toast.LENGTH_SHORT).show()
                 }

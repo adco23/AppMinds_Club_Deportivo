@@ -8,5 +8,6 @@ data class AddProfesorDto (
     val dni: String,
     val address: String,
     val phone: String,
-    val isSubstitute: Boolean
+    val isSubstitute: Boolean,
+    var activity: String? = null
 ) : Serializable
