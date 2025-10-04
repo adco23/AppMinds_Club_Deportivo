@@ -3,4 +3,8 @@
     <string name="profesor_menu">Profesores</string>
     <string name="add_profesor">Registrar profesor</string>
     <string name="btn_back_description">Botón para volver atrás</string>
+    <string name="buscar">Buscar</string>
+    <string name="registrarpago">"Registrar\npago"</string>
+    <string name="dni">"DNI"</string>
+
 </resources>
