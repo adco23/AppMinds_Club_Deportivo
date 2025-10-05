@@ -18,7 +18,7 @@ import androidx.core.widget.addTextChangedListener
 import com.appminds.clubdeportivo.R
 import com.appminds.clubdeportivo.models.ProfesorDto
 
-class UpdateProfesorActivity : AppCompatActivity() {
+class   UpdateProfesorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import com.appminds.clubdeportivo.clients.AddClientActivity
 import com.appminds.clubdeportivo.clients.ClientOverdueActivity
 import com.appminds.clubdeportivo.clients.SearchClientActivity
+import com.appminds.clubdeportivo.actividad.ActividadMenuActivity
 import com.appminds.clubdeportivo.profesor.ProfesorMenuActivity
 
 class MainMenuActivity : AppCompatActivity() {
@@ -48,7 +49,7 @@ class MainMenuActivity : AppCompatActivity() {
                     "Registrar cliente" -> goToAddClient()
                     "Socios con cuotas vencidas" -> goToOverdueClient()
                     "Registrar pago" -> goToRegistrarPago()
-                    "Actividades" -> Toast.makeText(this, "Actividades", Toast.LENGTH_SHORT).show()
+                    "Actividades" -> this.goToActividadMenu()
                     "Profesores" -> this.goToProfesores()
                 }
             }
@@ -74,4 +75,8 @@ class MainMenuActivity : AppCompatActivity() {
         finish()
     }
     private fun goToRegistrarPago() { startActivity(Intent(this, RegistrarPagoActivity::class.java))}
+    private fun goToActividadMenu() {
+        val intent = Intent(this, ActividadMenuActivity::class.java)
+        startActivity(intent)
+    }
 }

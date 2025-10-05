@@ -37,6 +37,19 @@
             android:exported="false" />
         <activity
             android:name=".clients.SearchClientActivity"
+            android:name=".actividad.UpdateActividadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".actividad.AdministrarActividades"
+            android:exported="false" />
+        <activity
+            android:name=".actividad.AddActividadStep2Activity"
+            android:exported="false" />
+        <activity
+            android:name=".actividad.AddActividadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".actividad.ActividadMenuActivity"
             android:exported="false" />
         <activity
             android:name=".profesor.UpdateProfesorActivity"
