@@ -23,9 +23,15 @@ class RegistrarPagoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_registrar_pago)
 
         val btnPagarCuota = findViewById<Button>(R.id.btnPagarCuota)
+        val btnPagarActividad = findViewById<Button>(R.id.btnPagarActividad)
 
         btnPagarCuota.setOnClickListener {
             val intent = Intent(this, PagarCuotaActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnPagarActividad.setOnClickListener {
+            val intent = Intent(this, PagarActividadActivity::class.java)
             startActivity(intent)
         }
 
