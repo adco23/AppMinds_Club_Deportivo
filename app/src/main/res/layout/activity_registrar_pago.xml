@@ -29,48 +29,77 @@
     </RelativeLayout>
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical">
-
+        android:layout_marginVertical="24dp">
 
         <EditText
-            android:id="@+id/inputDNI"
+            android:id="@+id/inputSearchClient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18sp"
-            android:autofillHints=""
-            android:hint="@string/dni"/>
+            android:paddingStart="48sp"
+            android:hint="Buscar"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnBuscar"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buscar"
-            style="@style/ButtonOptionGreen"
-            android:paddingHorizontal="32sp"
-            android:layout_marginBottom="22sp"
-            android:layout_gravity="center"
-            android:textAllCaps="false" />
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="61dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:layout_marginBottom="150sp"
-            android:text="@string/cliente" />
+            android:layout_marginStart="16dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_search"/>
 
-        <androidx.appcompat.widget.AppCompatButton
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSearchClient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buscar"
+        android:enabled="false"
+        style="@style/ButtonOptionGreen"
+        android:layout_marginBottom="100sp"
+        android:paddingHorizontal="32sp"/>
+
+    <TableLayout
+        android:id="@+id/tlClientData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:layout_marginBottom="50sp"
+        android:visibility="invisible">
+
+        <TableRow>
+            <TextView android:text="Cliente N°" style="@style/LabelSearchClient"/>
+            <TextView android:text="1234" style="@style/RowSearchClient" android:id="@+id/tvClientId"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="Cliente" style="@style/LabelSearchClient"/>
+            <TextView android:text="Pepito Fulano" style="@style/RowSearchClient" android:id="@+id/tvClientName"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="Tipo" style="@style/LabelSearchClient"/>
+            <TextView android:text="Socio" style="@style/RowSearchClient" android:id="@+id/tvClientType"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="Estado" style="@style/LabelSearchClient"/>
+            <TextView android:text="Activo" style="@style/RowSearchClient" android:id="@+id/tvClientStatus"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPagarCuota"
             style="@style/ButtonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18sp"
             android:text="@string/pagarcuota"
-            android:visibility="visible"
+            android:visibility="invisible"
+            android:layout_marginBottom="20sp"
             android:orientation="vertical"
             android:layout_gravity="bottom"
             android:textAllCaps="false" />
@@ -81,15 +110,11 @@
         style="@style/ButtonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="18sp" android:visibility="visible"
+        android:visibility="invisible"
         android:text="@string/pagaractividad"
         android:orientation="vertical"
         android:layout_gravity="bottom"
         android:textAllCaps="false" />
-
-
-    </LinearLayout>
-
 
 
 </LinearLayout>
