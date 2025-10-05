@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClubDeportivo">
         <activity
+            android:name=".clients.SearchClientActivity"
+            android:exported="false"/>
+        <activity
             android:name=".profesor.UpdateProfesorActivity"
             android:exported="false" />
         <activity
@@ -19,7 +22,7 @@
             android:exported="false" />
         <activity
             android:name=".profesor.PlantelActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".profesor.ProfesorAttendanceActivity"
             android:exported="false" />
@@ -46,6 +49,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
