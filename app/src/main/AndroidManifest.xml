@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClubDeportivo">
         <activity
+            android:name=".clients.ClientOverdueActivity"
+            android:exported="false" />
+        <activity
             android:name=".clients.AddClientActivity"
             android:exported="false" />
         <activity

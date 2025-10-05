@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.appminds.clubdeportivo.clients.AddClientActivity
+import com.appminds.clubdeportivo.clients.ClientOverdueActivity
 import com.appminds.clubdeportivo.clients.SearchClientActivity
 import com.appminds.clubdeportivo.profesor.ProfesorMenuActivity
 
@@ -41,7 +42,7 @@ class MainMenuActivity : AppCompatActivity() {
                     "Buscar cliente" -> goToSearchClient()
                     "Registrar cliente" -> goToAddClient()
                     "Registrar pago" -> Toast.makeText(this, "Registrar pago", Toast.LENGTH_SHORT).show()
-                    "Socios con cuotas vencidas" -> Toast.makeText(this, "Socios con cuotas vencidas", Toast.LENGTH_SHORT).show()
+                    "Socios con cuotas vencidas" -> goToOverdueClient()
                     "Actividades" -> Toast.makeText(this, "Actividades", Toast.LENGTH_SHORT).show()
                     "Profesores" -> this.goToProfesores()
                 }
@@ -58,4 +59,5 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun goToSearchClient() { startActivity(Intent(this, SearchClientActivity::class.java))}
     private fun goToAddClient() { startActivity(Intent(this, AddClientActivity::class.java))}
+    private fun goToOverdueClient() { startActivity(Intent(this, ClientOverdueActivity::class.java))}
 }
