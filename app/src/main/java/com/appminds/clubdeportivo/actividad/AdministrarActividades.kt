@@ -75,9 +75,9 @@ class AdministrarActividades : AppCompatActivity() {
             }
         )
 
-        rv.layoutManager = LinearLayoutManager(this)
+        rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        rv.setHasFixedSize(false) // por las cards variables
         rv.adapter = adapter
-
         btnBack.setOnClickListener { finish() }
     }
 }

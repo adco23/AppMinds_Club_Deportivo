@@ -1,14 +1,19 @@
+// ActividadAdminAdapter.kt
 package com.appminds.clubdeportivo.adapters
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.appminds.clubdeportivo.R
 import com.appminds.clubdeportivo.models.ActividadDto
+import java.text.Normalizer
 
 class ActividadAdminAdapter(
     private val list: MutableList<ActividadDto>,
@@ -24,7 +29,8 @@ class ActividadAdminAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_actividad_admin, parent, false)
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_actividad_admin, parent, false)
         return CardViewHolder(v)
     }
 
@@ -33,10 +39,35 @@ class ActividadAdminAdapter(
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val act = list[position]
         holder.tvNombre.text = act.name
-        // si querés, mapear ícono por nombre:
-        // holder.imgIcon.setImageResource(getIconFor(act.name))
+        holder.imgIcon.setImageResource(iconForActivity(act.name))
+
+        // aplicar tinte verde
+        ImageViewCompat.setImageTintList(
+            holder.imgIcon,
+            ColorStateList.valueOf(
+                ContextCompat.getColor(holder.itemView.context, R.color.dark_green)
+            )
+        )
 
         holder.btnEditar.setOnClickListener { onEdit(act) }
         holder.btnEliminar.setOnClickListener { onDelete(act) }
+    }
+
+    // Mapea nombre de actividad -> ícono
+    private fun iconForActivity(name: String): Int {
+        val normalized = Normalizer.normalize(name, Normalizer.Form.NFD)
+            .replace("\\p{Mn}+".toRegex(), "") // quita acentos
+            .lowercase()
+
+        return when {
+            normalized.contains("yoga")        -> R.drawable.ic_yoga
+            normalized.contains("funcional")   -> R.drawable.ic_funcional
+            normalized.contains("spinning")    -> R.drawable.ic_bike
+            normalized.contains("futbol")      -> R.drawable.ic_soccer
+            normalized.contains("hockey")      -> R.drawable.ic_hockey
+            normalized.contains("musculacion") -> R.drawable.ic_muscualcion   // ✅ ojo al nombre
+            else -> R.drawable.ic_user
+
+        }
     }
 }
