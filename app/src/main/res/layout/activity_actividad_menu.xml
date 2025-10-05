@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="40dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Botón atrás -->
+        <ImageButton
+            android:id="@+id/btnGoToBack"
+            style="@style/BtnBack"
+            android:contentDescription="@string/btn_back_description" />
+    </RelativeLayout>
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/txtTitulo"
+        style="@style/MainTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:text="Actividades" />
+
+    <!-- Contenedor de los dos botones -->
+    <LinearLayout
+        android:id="@+id/menuActividadesContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="26dp"
+        android:layout_weight="1"/>
+
+
+
+
+</LinearLayout>

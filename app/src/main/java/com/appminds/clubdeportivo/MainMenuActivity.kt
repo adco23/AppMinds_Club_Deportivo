@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import com.appminds.clubdeportivo.actividad.ActividadMenuActivity
 import com.appminds.clubdeportivo.profesor.ProfesorMenuActivity
 
 class MainMenuActivity : AppCompatActivity() {
@@ -40,7 +41,7 @@ class MainMenuActivity : AppCompatActivity() {
                     "Registrar cliente" -> Toast.makeText(this, "Registrar cliente", Toast.LENGTH_SHORT).show()
                     "Registrar pago" -> Toast.makeText(this, "Registrar pago", Toast.LENGTH_SHORT).show()
                     "Socios con cuotas vencidas" -> Toast.makeText(this, "Socios con cuotas vencidas", Toast.LENGTH_SHORT).show()
-                    "Actividades" -> Toast.makeText(this, "Actividades", Toast.LENGTH_SHORT).show()
+                    "Actividades" -> this.goToActividadMenu()
                     "Profesores" -> this.goToProfesores()
                 }
             }
@@ -53,4 +54,12 @@ class MainMenuActivity : AppCompatActivity() {
         val intent = Intent(this, ProfesorMenuActivity::class.java)
         startActivity(intent)
     }
+
+    private fun goToActividadMenu() {
+        val intent = Intent(this, ActividadMenuActivity::class.java)
+        startActivity(intent)
+    }
+
+
+
 }
