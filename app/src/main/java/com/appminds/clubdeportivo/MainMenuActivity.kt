@@ -40,7 +40,7 @@ class MainMenuActivity : AppCompatActivity() {
                 when (label) {
                     "Buscar cliente" -> goToSearchClient()
                     "Registrar cliente" -> goToAddClient()
-                    "Registrar pago" -> Toast.makeText(this, "Registrar pago", Toast.LENGTH_SHORT).show()
+                    "Registrar pago" -> goToRegistrarPago()
                     "Socios con cuotas vencidas" -> Toast.makeText(this, "Socios con cuotas vencidas", Toast.LENGTH_SHORT).show()
                     "Actividades" -> Toast.makeText(this, "Actividades", Toast.LENGTH_SHORT).show()
                     "Profesores" -> this.goToProfesores()
@@ -58,4 +58,5 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun goToSearchClient() { startActivity(Intent(this, SearchClientActivity::class.java))}
     private fun goToAddClient() { startActivity(Intent(this, AddClientActivity::class.java))}
+    private fun goToRegistrarPago() { startActivity(Intent(this, RegistrarPagoActivity::class.java))}
 }
