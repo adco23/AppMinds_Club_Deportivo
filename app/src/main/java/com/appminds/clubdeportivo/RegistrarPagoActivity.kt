@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TableLayout
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -46,19 +47,24 @@ class RegistrarPagoActivity : AppCompatActivity() {
 
         searchInput.addTextChangedListener(watcher)
         searchBtn.setOnClickListener {
-            tlClientData.isVisible = true
-            btnPagarCuota.isVisible = true
-            btnPagarActividad.isVisible = true
+            var searchText = searchInput.text.toString().trim()
+            val client = clientsMock.find { it.dni.contains(searchText) }
+
+            if (client != null) {
+                findViewById<TextView>(R.id.tvClientIdP).setText(client.dni)
+                findViewById<TextView>(R.id.tvClientNameP).setText("${client.firstname} ${client.lastname}")
+                findViewById<TextView>(R.id.tvClientTypeP).setText(client.type.toString())
+                findViewById<TextView>(R.id.tvClientStatusP).setText(client.status.toString())
+
+                tlClientData.isVisible = true
+                btnPagarCuota.isVisible = client.type == ClientTypeEnum.SOCIO
+                btnPagarActividad.isVisible = client.type == ClientTypeEnum.NO_SOCIO
+            } else {
+                btnPagarCuota.isVisible = true
+            }
         }
 
         btnBack.setOnClickListener { finish() }
-
-
-
-
-
-        //val btnBack = findViewById<ImageButton>(R.id.btnBack)
-        //btnBack.setOnClickListener { finish() }
 
         btnPagarCuota.setOnClickListener {
             val intent = Intent(this, PagarCuotaActivity::class.java)
