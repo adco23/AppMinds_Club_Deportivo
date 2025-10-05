@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.isVisible
@@ -40,13 +41,25 @@ class DetailProfesorActivity : AppCompatActivity() {
             startActivity(intent)
         }
         btnDelete.setOnClickListener {
-            val intent = Intent(this, ProfesorConfirmActivity::class.java)
-            intent.putExtra("message", "¡Profesor eliminado con éxito!")
-            intent.putExtra("labelBtn", "Volver a menú")
-            intent.putExtra("goTo", PlantelActivity::class.java)
 
-            startActivity(intent)
-            finish()
+            AlertDialog.Builder(this)
+                .setTitle("¿Deseás eliminar al profesor ${profesor?.firstname} ${profesor?.lastname}?")
+                .setMessage("Esta acción eliminará del plantel al profesor.")
+                .setPositiveButton("Sí") { dialog, _ ->
+
+                    dialog.dismiss()
+
+                    val intent = Intent(this, ProfesorConfirmActivity::class.java)
+                    intent.putExtra("message", "¡Profesor eliminado con éxito!")
+                    intent.putExtra("labelBtn", "Volver a menú")
+                    intent.putExtra("goTo", PlantelActivity::class.java)
+
+                    startActivity(intent)
+                    finish()
+                }
+                .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
+                .setCancelable(true)
+                .show()
         }
 
     }
