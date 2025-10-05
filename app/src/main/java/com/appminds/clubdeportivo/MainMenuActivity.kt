@@ -34,7 +34,6 @@ class MainMenuActivity : AppCompatActivity() {
                 setAllCaps(true)
                 background = ContextCompat.getDrawable(context, R.drawable.bg_btn_regular)
 
-
                 val params = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT

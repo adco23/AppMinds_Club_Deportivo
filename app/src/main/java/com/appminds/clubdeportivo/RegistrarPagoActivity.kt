@@ -60,6 +60,7 @@ class RegistrarPagoActivity : AppCompatActivity() {
                 btnPagarCuota.isVisible = client.type == ClientTypeEnum.SOCIO
                 btnPagarActividad.isVisible = client.type == ClientTypeEnum.NO_SOCIO
             } else {
+                tlClientData.isVisible = true
                 btnPagarCuota.isVisible = true
             }
         }
