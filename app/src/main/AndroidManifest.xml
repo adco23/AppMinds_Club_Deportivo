@@ -37,6 +37,8 @@
             android:exported="false" />
         <activity
             android:name=".clients.SearchClientActivity"
+            android:exported="false" />
+        <activity
             android:name=".actividad.UpdateActividadActivity"
             android:exported="false" />
         <activity

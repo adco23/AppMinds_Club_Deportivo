@@ -22,11 +22,6 @@ class ActividadMenuActivity : AppCompatActivity() {
 
         // Ajuste de insets (igual que en Main)
         val root: View = findViewById(R.id.main)
-        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
-            val sys = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(sys.left, sys.top, sys.right, sys.bottom)
-            insets
-        }
 
         // Botón atrás
         findViewById<View>(R.id.btnGoToBack).setOnClickListener { onBackPressedDispatcher.onBackPressed() }
