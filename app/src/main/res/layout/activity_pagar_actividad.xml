@@ -60,7 +60,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="$ Monto"
-      android:inputType="textPassword"
+      android:inputType="number"
       android:layout_marginBottom="12sp"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox

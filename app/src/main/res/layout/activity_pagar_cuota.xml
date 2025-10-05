@@ -48,23 +48,23 @@
       android:inputType="textEmailAddress" />
 
   <EditText
-      android:id="@+id/inputPassword"
+      android:id="@+id/inputFecha"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="Fecha de Vencimiento"
-      android:inputType="textPassword"
+      android:inputType="date"
       android:layout_marginBottom="12sp"/>
 
   <EditText
-      android:id="@+id/inputPassword"
+      android:id="@+id/inputMonto"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="$ Monto Cuota"
-      android:inputType="textPassword"
+      android:inputType="number"
       android:layout_marginBottom="12sp"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox
-      android:id="@+id/cbIsSubstitute"
+      android:id="@+id/cbIsEfectivo"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Efectivo"
@@ -74,7 +74,7 @@
       android:padding="6dp"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox
-      android:id="@+id/cbIsSubstitute"
+      android:id="@+id/cbIsTarjeta1"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Tarjeta 1 pago"
@@ -84,7 +84,7 @@
       android:padding="6dp"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox
-      android:id="@+id/cbIsSubstitute"
+      android:id="@+id/cbIsTarjeta2"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Tarjeta 3 pagos"
@@ -94,7 +94,7 @@
       android:padding="6dp"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox
-      android:id="@+id/cbIsSubstitute"
+      android:id="@+id/cbIsTarjeta3"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Tarjeta 6 pagos"
