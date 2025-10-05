@@ -2,6 +2,7 @@ package com.appminds.clubdeportivo
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -21,6 +22,11 @@ class MainMenuActivity : AppCompatActivity() {
 
         val menuContainer = findViewById<LinearLayout>(R.id.menuContainer)
         val menuItems = listOf("Buscar cliente", "Registrar cliente", "Registrar pago", "Socios con cuotas vencidas", "Actividades", "Profesores")
+        val btnLogout = findViewById<Button>(R.id.btnLogout)
+
+        btnLogout.setOnClickListener {
+            logOut()
+        }
 
         menuItems.forEach { label ->
             val button = AppCompatButton(this).apply {
@@ -60,4 +66,12 @@ class MainMenuActivity : AppCompatActivity() {
     private fun goToSearchClient() { startActivity(Intent(this, SearchClientActivity::class.java))}
     private fun goToAddClient() { startActivity(Intent(this, AddClientActivity::class.java))}
     private fun goToOverdueClient() { startActivity(Intent(this, ClientOverdueActivity::class.java))}
+
+    private fun logOut() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        finish()
+    }
 }
