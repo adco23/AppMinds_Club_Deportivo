@@ -18,6 +18,7 @@ import com.appminds.clubdeportivo.R
 import com.appminds.clubdeportivo.models.ClientDto
 import com.appminds.clubdeportivo.models.enums.ClientStatusEnum
 import com.appminds.clubdeportivo.models.enums.ClientTypeEnum
+import com.appminds.clubdeportivo.profesor.AddProfesorActivity
 import com.appminds.clubdeportivo.profesor.ProfesorConfirmActivity
 
 class AddClientActivity : AppCompatActivity() {
@@ -69,8 +70,12 @@ class AddClientActivity : AppCompatActivity() {
                     if(cbClientType.isChecked) ClientTypeEnum.SOCIO else ClientTypeEnum.NO_SOCIO,
                     ClientStatusEnum.PENDIENTE
                 )
+                val intent = Intent(this, ProfesorConfirmActivity::class.java)
+                intent.putExtra("message", "¡Cliente registrado con éxito!")
+                intent.putExtra("labelBtn", "Volver a menú")
+                intent.putExtra("goTo", MainMenuActivity::class.java)
 
-                Toast.makeText(this, "Cliente registrado con éxito", Toast.LENGTH_SHORT).show()
+                startActivity(intent)
                 finish()
             }
         }

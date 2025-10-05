@@ -36,6 +36,13 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/green"
+            android:layout_marginBottom="8dp"
+            android:text="Asigná una actividad" />
+
         <Spinner
             android:id="@+id/spinnerOptions"
             android:layout_width="match_parent"

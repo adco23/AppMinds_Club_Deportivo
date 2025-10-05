@@ -28,7 +28,7 @@
 
 
     <string-array name="options_example">
-        <item />
+        <item/>
         <item>Natación</item>
         <item>Fútbol</item>
         <item>Gimnasia</item>
