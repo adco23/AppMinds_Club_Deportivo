@@ -51,6 +51,7 @@
             android:text="Buscar"
             style="@style/ButtonOptionGreen"
             android:paddingHorizontal="32sp"
+            android:layout_marginBottom="22sp"
             android:layout_gravity="center"
             android:textAllCaps="false" />
         <TextView
@@ -59,6 +60,7 @@
             android:layout_height="61dp"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:layout_marginBottom="150sp"
             android:text="@string/cliente" />
 
         <androidx.appcompat.widget.AppCompatButton
