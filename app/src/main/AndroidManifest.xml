@@ -12,6 +12,72 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClubDeportivo">
         <activity
+            android:name=".PagarActividadAtentionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PagoComprobanteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PagoConfirmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PagarActividadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PagarCuotaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistrarPagoActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".clients.ClientOverdueActivity"
+            android:exported="false" />
+        <activity
+            android:name=".clients.AddClientActivity"
+            android:exported="false" />
+        <activity
+            android:name=".clients.SearchClientActivity"
+            android:exported="false" />
+        <activity
+            android:name=".actividad.UpdateActividadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".actividad.AdministrarActividades"
+            android:exported="false" />
+        <activity
+            android:name=".actividad.AddActividadStep2Activity"
+            android:exported="false" />
+        <activity
+            android:name=".actividad.AddActividadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".actividad.ActividadMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profesor.UpdateProfesorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profesor.DetailProfesorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profesor.PlantelActivity"
+            android:exported="true" />
+        <activity
+            android:name=".profesor.ProfesorAttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profesor.ProfesorConfirmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profesor.AddProfesorStep2Activity"
+            android:exported="false" />
+        <activity
+            android:name=".profesor.AddProfesorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profesor.ProfesorMenuActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainMenuActivity"
             android:exported="false" />
         <activity
@@ -22,6 +88,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

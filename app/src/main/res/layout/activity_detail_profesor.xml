@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="40dp"
+    tools:context=".profesor.DetailProfesorActivity">
+
+    <!-- Header común -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+
+        <!-- Botón atrás -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/BtnBack"
+            android:contentDescription="@string/btn_back_description" />
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tvProfesorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/detail_profesor"
+            android:paddingHorizontal="50dp"
+            style="@style/MainTitle"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TableLayout
+            android:id="@+id/timeTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp">
+
+            <!-- DNI -->
+            <TableRow style="@style/TableRowContainer">
+                <ImageView android:src="@drawable/ic_user"/>
+                <TextView android:id="@+id/tvDni" android:text="12345678" style="@style/TextDetail"/>
+            </TableRow>
+
+            <!-- Direccion -->
+            <TableRow style="@style/TableRowContainer">
+                <ImageView android:src="@drawable/ic_home_pin"/>
+                <TextView android:id="@+id/tvAddress" android:text="Dirección 123" style="@style/TextDetail" android:layout_height="wrap_content"/>
+            </TableRow>
+
+            <!-- Telefono -->
+            <TableRow style="@style/TableRowContainer">
+                <ImageView android:src="@drawable/ic_phone"/>
+                <TextView android:id="@+id/tvPhone" android:text="123456789" style="@style/TextDetail"/>
+            </TableRow>
+
+            <!-- Suplente -->
+            <TableRow android:id="@+id/trIsSubstitute" style="@style/TableRowContainer">
+                <ImageView android:src="@drawable/ic_atention"/>
+                <TextView  android:text="Suplente" style="@style/TextDetail"/>
+            </TableRow>
+        </TableLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:background="@color/desabledBg"
+            android:layout_marginTop="32dp"
+            app:cardCornerRadius="8dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvActividad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/main"
+                    android:text="Actividad"
+                    android:layout_weight="1"
+                    android:textSize="24sp"/>
+
+                <ImageButton
+                    android:id="@+id/btnGoToActividad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_chevron_forward"
+                    android:background="@null"
+                    android:contentDescription="Boton para ver los detalles"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnUpdateProfesor"
+        style="@style/ButtonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modificar"
+        android:textAllCaps="false" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDeleteProfesor"
+        style="@style/ButtonOptionRed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Eliminar"
+        android:textSize="25sp"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="12dp"
+        android:textAllCaps="false" />
+
+</LinearLayout>

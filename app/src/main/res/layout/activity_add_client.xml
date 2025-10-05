@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="40dp"
+    tools:context=".clients.AddClientActivity">
+
+    <!-- Header común -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Botón atrás -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/BtnBack"
+            android:contentDescription="@string/btn_back_description" />
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/add_client"
+            android:paddingHorizontal="50dp"
+            style="@style/MainTitle"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/etClientName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16sp"
+            android:hint="Nombre"/>
+
+        <EditText
+            android:id="@+id/etClientLastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16sp"
+            android:hint="Apellido"/>
+
+        <EditText
+            android:id="@+id/etClientDNI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16sp"
+            android:inputType="number"
+            android:hint="DNI"/>
+
+        <EditText
+            android:id="@+id/etClientAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16sp"
+            android:hint="Domicilio"/>
+
+        <EditText
+            android:id="@+id/etClientPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16sp"
+            android:hint="Teléfono"
+            android:inputType="phone"/>
+
+        <EditText
+            android:id="@+id/etClientEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16sp"
+            android:hint="Correo"
+            android:inputType="textEmailAddress"/>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbSubmitDoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Presenta apto físico"
+            android:textSize="20dp"
+            android:textColor="@color/green"
+            app:buttonTint="@color/checkbox_tint"
+            android:padding="8dp"/>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbClientType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Socio"
+            android:textSize="20dp"
+            android:textColor="@color/green"
+            app:buttonTint="@color/checkbox_tint"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSaveClient"
+        style="@style/ButtonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Guardar"
+        android:textAllCaps="false" />
+
+</LinearLayout>

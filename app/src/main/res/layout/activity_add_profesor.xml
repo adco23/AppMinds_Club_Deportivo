@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="40dp">
+
+    <!-- Header común -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Botón atrás -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/BtnBack"
+            android:contentDescription="@string/btn_back_description" />
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/add_profesor"
+            android:paddingHorizontal="50dp"
+            style="@style/MainTitle"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/profesorOptContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/inputFirstname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:hint="Nombre"/>
+
+        <EditText
+            android:id="@+id/inputLastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:hint="Apellido"/>
+
+        <EditText
+            android:id="@+id/inputDNI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:inputType="number"
+            android:hint="DNI"/>
+
+        <EditText
+            android:id="@+id/inputAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:hint="Domicilio"/>
+
+        <EditText
+            android:id="@+id/inputPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:hint="Teléfono"
+            android:inputType="phone"/>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbIsSubstitute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Es suplente"
+            android:textSize="20dp"
+            android:textColor="@color/green"
+            app:buttonTint="@color/checkbox_tint"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddProfNext"
+            style="@style/ButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="Siguiente"
+            android:textAllCaps="false" />
+</LinearLayout>
