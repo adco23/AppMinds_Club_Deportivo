@@ -56,9 +56,7 @@ class ActividadMenuActivity : AppCompatActivity() {
     }
 
     private fun goToRegistrarActividad() {
-        // TODO: reemplazar por la Activity real cuando la tengas
-        // startActivity(Intent(this, RegistrarActividadActivity::class.java))
-        Toast.makeText(this, "REGISTRAR actividad", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, AddActividadActivity::class.java))
     }
 
     private fun goToAdministrarActividad() {
