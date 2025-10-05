@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import com.appminds.clubdeportivo.clients.AddClientActivity
 import com.appminds.clubdeportivo.clients.SearchClientActivity
 import com.appminds.clubdeportivo.profesor.ProfesorMenuActivity
 
@@ -38,7 +39,7 @@ class MainMenuActivity : AppCompatActivity() {
             button.setOnClickListener {
                 when (label) {
                     "Buscar cliente" -> goToSearchClient()
-                    "Registrar cliente" -> Toast.makeText(this, "Registrar cliente", Toast.LENGTH_SHORT).show()
+                    "Registrar cliente" -> goToAddClient()
                     "Registrar pago" -> Toast.makeText(this, "Registrar pago", Toast.LENGTH_SHORT).show()
                     "Socios con cuotas vencidas" -> Toast.makeText(this, "Socios con cuotas vencidas", Toast.LENGTH_SHORT).show()
                     "Actividades" -> Toast.makeText(this, "Actividades", Toast.LENGTH_SHORT).show()
@@ -56,4 +57,5 @@ class MainMenuActivity : AppCompatActivity() {
     }
 
     private fun goToSearchClient() { startActivity(Intent(this, SearchClientActivity::class.java))}
+    private fun goToAddClient() { startActivity(Intent(this, AddClientActivity::class.java))}
 }
