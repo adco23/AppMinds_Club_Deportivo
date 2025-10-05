@@ -48,7 +48,7 @@ class AdministrarActividades : AppCompatActivity() {
             onEdit = { actividad ->
                 Toast.makeText(this, "Editar: ${actividad.name}", Toast.LENGTH_SHORT).show()
                 // Cuando tengas la pantalla:
-                // startActivity(Intent(this, UpdateActividadActivity::class.java).putExtra("actividad", actividad))
+                startActivity(Intent(this, UpdateActividadActivity::class.java).putExtra("actividad", actividad))
             },
             onDelete = { actividad ->
                 AlertDialog.Builder(this)

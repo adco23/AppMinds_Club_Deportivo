@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClubDeportivo">
         <activity
+            android:name=".actividad.UpdateActividadActivity"
+            android:exported="false" />
+        <activity
             android:name=".actividad.AdministrarActividades"
             android:exported="false" />
         <activity
