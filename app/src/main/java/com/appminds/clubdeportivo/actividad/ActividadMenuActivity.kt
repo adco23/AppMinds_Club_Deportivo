@@ -60,8 +60,7 @@ class ActividadMenuActivity : AppCompatActivity() {
     }
 
     private fun goToAdministrarActividad() {
-        // TODO: reemplazar por la Activity real cuando la tengas
-        // startActivity(Intent(this, AdministrarActividadActivity::class.java))
-        Toast.makeText(this, "ADMINISTRAR actividades", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, AdministrarActividades::class.java))
     }
+
 }

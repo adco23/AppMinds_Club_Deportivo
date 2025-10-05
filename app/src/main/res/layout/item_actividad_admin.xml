@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:background="@color/desabledBg"
+    app:cardCornerRadius="8dp"
+    android:elevation="4dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:gravity="center_vertical">
+
+        <!-- Nombre + icono -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="88dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvNombre"
+                android:layout_width="91dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="8dp"
+                android:text="Yoga"
+                android:textColor="@color/main"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/imgIcon"
+                android:layout_width="46dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_user" />
+        </LinearLayout>
+
+        <!-- Botones -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEditar"
+                style="@style/ButtonPrimary"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="8dp"
+                android:text="MODIFICAR"
+                android:textAllCaps="true" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEliminar"
+                style="@style/ButtonOptionRed"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="ELIMINAR"
+                android:textAllCaps="true" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
