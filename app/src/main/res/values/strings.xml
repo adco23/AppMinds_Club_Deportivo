@@ -10,10 +10,15 @@
     <string name="btn_back_description">Botón para volver atrás</string>
     <string name="buscar">Buscar</string>
     <string name="registrarpago">"Registrar\npago"</string>
+    <string name="registrarpagocuota">"Registrar\nPago Cuota"</string>
     <string name="dni">"DNI"</string>
-    <string name="cliente">"Cliente"</string>
+    <string name="cliente">"Cliente Nº"</string>
     <string name="nombre_apellido">"Nombre y Apellido"</string>
     <string name="socio">"Socio"</string>
+    <string name="pagarcuota">"Pagar cuota"</string>
+    <string name="pagaractividad">"Pagar actividad"</string>
+    <string name="pagar">"Pagar"</string>
+
 
 
     <string-array name="options_example">

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="40dp">
+
+    <!-- Header común -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Botón atrás -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/BtnBack"
+            android:contentDescription="@string/btn_back_description" />
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/registrarpago"
+            android:layout_marginBottom="50dp"
+            style="@style/MainTitle"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:id="@+id/inputDNI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:autofillHints=""
+            android:hint="@string/dni"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBuscar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buscar"
+            style="@style/ButtonOptionGreen"
+            android:paddingHorizontal="32sp"
+            android:layout_gravity="center"
+            android:textAllCaps="false" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="@string/cliente" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnPagarCuota"
+            style="@style/ButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18sp"
+            android:text="@string/pagarcuota"
+            android:visibility="visible"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:textAllCaps="false" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnPagarActividad"
+        style="@style/ButtonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18sp" android:visibility="visible"
+        android:text="@string/pagaractividad"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:textAllCaps="false" />
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
