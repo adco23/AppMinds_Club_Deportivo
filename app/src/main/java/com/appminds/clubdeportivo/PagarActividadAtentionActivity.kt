@@ -1,22 +1,20 @@
 package com.appminds.clubdeportivo
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
-class PagoComprobanteActivity : AppCompatActivity() {
+class PagarActividadAtentionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_pago_comprobante)
+        setContentView(R.layout.activity_pagar_actividad_atention)
 
         val btnBack = findViewById<ImageButton>(R.id.btnGoToBack)
-        btnBack.setOnClickListener { finish() }
+        val btnVolver = findViewById<ImageButton>(R.id.btnVolver)
 
+        btnBack.setOnClickListener { finish() }
+        btnVolver.setOnClickListener { finish() }
     }
 }

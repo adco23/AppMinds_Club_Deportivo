@@ -5,6 +5,7 @@
     <string name="update_profesor">Modificar profesor</string>
     <string name="add_profesor_OK">¡Profesor registrado con éxito!</string>
     <string name="add_pago_OK">¡Pago registrado con éxito!</string>
+    <string name="actividad_sin_cupo">¡Actividad sin Cupo Disponible!</string>
     <string name="comprobante">Comprobante de Pago</string>
     <string name="attendance_profesor">Asistencia</string>
     <string name="plantel">Plantel</string>

@@ -3,6 +3,7 @@ package com.appminds.clubdeportivo
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
@@ -13,6 +14,7 @@ class PagarCuotaActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pagar_cuota)
 
         val btnPagar = findViewById<Button>(R.id.btnPagar)
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
 
 
         btnPagar.setOnClickListener {
@@ -20,5 +22,6 @@ class PagarCuotaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        btnBack.setOnClickListener { finish() }
     }
 }
