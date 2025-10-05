@@ -12,6 +12,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClubDeportivo">
         <activity
+            android:name=".PagarActividadAtentionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PagoComprobanteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PagoConfirmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PagarActividadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PagarCuotaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistrarPagoActivity"
+            android:exported="false"/>
+        <activity
             android:name=".clients.ClientOverdueActivity"
             android:exported="false" />
         <activity

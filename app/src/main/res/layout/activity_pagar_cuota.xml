@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="40dp">
+
+  <!-- Header común -->
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <!-- Botón atrás -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        style="@style/BtnBack"
+        android:contentDescription="@string/btn_back_description" />
+
+    <!-- Título -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/registrarpagocuota"
+        android:layout_marginBottom="50dp"
+        style="@style/MainTitle"/>
+
+    </RelativeLayout>
+
+      <TextView
+      android:id="@+id/textView2"
+      android:layout_width="match_parent"
+      android:layout_height="61dp"
+      android:textColor="@color/white"
+      android:textSize="16sp"
+      android:text="@string/cliente" />
+
+
+
+
+  <EditText
+      android:id="@+id/inputEmail"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="12sp"
+      android:hint="Fecha de Pago"
+      android:inputType="textEmailAddress" />
+
+  <EditText
+      android:id="@+id/inputPassword"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="Fecha de Vencimiento"
+      android:inputType="textPassword"
+      android:layout_marginBottom="12sp"/>
+
+  <EditText
+      android:id="@+id/inputPassword"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="$ Monto Cuota"
+      android:inputType="textPassword"
+      android:layout_marginBottom="12sp"/>
+
+  <androidx.appcompat.widget.AppCompatCheckBox
+      android:id="@+id/cbIsSubstitute"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Efectivo"
+      android:textSize="18dp"
+      android:textColor="@color/green"
+      app:buttonTint="@color/checkbox_tint"
+      android:padding="6dp"/>
+
+  <androidx.appcompat.widget.AppCompatCheckBox
+      android:id="@+id/cbIsSubstitute"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Tarjeta 1 pago"
+      android:textSize="18dp"
+      android:textColor="@color/green"
+      app:buttonTint="@color/checkbox_tint"
+      android:padding="6dp"/>
+
+  <androidx.appcompat.widget.AppCompatCheckBox
+      android:id="@+id/cbIsSubstitute"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Tarjeta 3 pagos"
+      android:textSize="18dp"
+      android:textColor="@color/green"
+      app:buttonTint="@color/checkbox_tint"
+      android:padding="6dp"/>
+
+  <androidx.appcompat.widget.AppCompatCheckBox
+      android:id="@+id/cbIsSubstitute"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Tarjeta 6 pagos"
+      android:textSize="18dp"
+      android:textColor="@color/green"
+      app:buttonTint="@color/checkbox_tint"
+      android:padding="6dp"
+      android:layout_marginBottom="4sp"/>
+
+  <androidx.appcompat.widget.AppCompatButton
+      android:id="@+id/btnPagar"
+      style="@style/ButtonPrimary"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="18sp"
+      android:text="@string/pagar"
+      android:visibility="visible"
+      android:orientation="vertical"
+      android:layout_gravity="bottom"
+      android:textAllCaps="false" />
+
+</LinearLayout>

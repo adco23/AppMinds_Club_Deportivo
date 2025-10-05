@@ -47,8 +47,8 @@ class MainMenuActivity : AppCompatActivity() {
                 when (label) {
                     "Buscar cliente" -> goToSearchClient()
                     "Registrar cliente" -> goToAddClient()
-                    "Registrar pago" -> Toast.makeText(this, "Registrar pago", Toast.LENGTH_SHORT).show()
                     "Socios con cuotas vencidas" -> goToOverdueClient()
+                    "Registrar pago" -> goToRegistrarPago()
                     "Actividades" -> Toast.makeText(this, "Actividades", Toast.LENGTH_SHORT).show()
                     "Profesores" -> this.goToProfesores()
                 }
@@ -74,4 +74,5 @@ class MainMenuActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         finish()
     }
+    private fun goToRegistrarPago() { startActivity(Intent(this, RegistrarPagoActivity::class.java))}
 }
