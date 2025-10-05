@@ -7,6 +7,7 @@
     <string name="attendance_profesor">Asistencia</string>
     <string name="plantel">Plantel</string>
     <string name="detail_profesor">Detalle</string>
+    <string name="search_client">Buscar cliente</string>
     <string name="btn_back_description">Botón para volver atrás</string>
     <string name="buscar">Buscar</string>
     <string name="registrarpago">"Registrar\npago"</string>
