@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.appminds.clubdeportivo.data.dao.UserDao
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var inputEmail: EditText
@@ -17,6 +19,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
+
+        val userDao = UserDao(this)
 
         inputEmail = findViewById<EditText>(R.id.inputEmail)
         inputPass = findViewById<EditText>(R.id.inputPassword)
@@ -34,9 +38,24 @@ class LoginActivity : AppCompatActivity() {
         inputPass.addTextChangedListener(watcher)
 
         loginBtn.setOnClickListener {
-            val intent = Intent(this, MainMenuActivity::class.java)
-            startActivity(intent)
-            finish()
+            val user = userDao.getByEmail(inputEmail.text.toString())
+
+            if (user == null) {
+                Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+            } else {
+                if (user.clave != inputPass.text.toString()) {
+                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Bienvenido ${user.nombre}", Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(this, MainMenuActivity::class.java).apply {
+                        putExtra("username", user.nombre)
+                    }
+
+                    startActivity(intent)
+                    finish()
+                }
+            }
         }
     }
 

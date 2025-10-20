@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.appminds.clubdeportivo.clients.AddClientActivity
 import com.appminds.clubdeportivo.clients.ClientOverdueActivity
 import com.appminds.clubdeportivo.clients.SearchClientActivity
 import com.appminds.clubdeportivo.actividad.ActividadMenuActivity
+import com.appminds.clubdeportivo.data.model.UserEntity
 import com.appminds.clubdeportivo.profesor.ProfesorMenuActivity
 
 class MainMenuActivity : AppCompatActivity() {
@@ -21,9 +23,14 @@ class MainMenuActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_menu)
 
+        val username = intent.getSerializableExtra("username") as? String
+
         val menuContainer = findViewById<LinearLayout>(R.id.menuContainer)
+        val txtHelloUser = findViewById<TextView>(R.id.txtHelloUser)
         val menuItems = listOf("Buscar cliente", "Registrar cliente", "Registrar pago", "Socios con cuotas vencidas", "Actividades", "Profesores")
         val btnLogout = findViewById<Button>(R.id.btnLogout)
+
+        txtHelloUser.text = "Hola $username!!"
 
         btnLogout.setOnClickListener {
             logOut()
