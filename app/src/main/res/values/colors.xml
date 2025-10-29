@@ -7,7 +7,9 @@
     <color name="dark_green">#10b981</color>
     <color name="desabledBg">#FBFBFB</color>
     <color name="desabledTxt">#9EA0A8</color>
+    <color name="gray_200">#dcdcdc</color>
     <color name="gray_400">#989898</color>
+    <color name="gray_500">#666666</color>
     <color name="rose">#fcb3ad</color>
     <color name="dark_rose">#c98e89</color>
     <color name="red">#ec221f</color>

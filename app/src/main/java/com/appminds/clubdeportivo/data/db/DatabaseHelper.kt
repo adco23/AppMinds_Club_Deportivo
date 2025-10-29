@@ -3,6 +3,8 @@ package com.appminds.clubdeportivo.data.db
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
+import com.appminds.clubdeportivo.data.db.contracts.ClientContract
 import com.appminds.clubdeportivo.data.db.contracts.UserContract
 
 class DatabaseHelper (context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
@@ -12,7 +14,16 @@ class DatabaseHelper (context: Context) : SQLiteOpenHelper(context, DB_NAME, nul
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL(UserContract.CREATE_TABLE)
+        Log.d("DatabaseHelper", "onCreate called")
+        try {
+            db?.execSQL(UserContract.CREATE_TABLE)
+            Log.d("DatabaseHelper", "UserContract table created")
+
+            db?.execSQL(ClientContract.CREATE_TABLE)
+            Log.d("DatabaseHelper", "ClientContract table created")
+        } catch (e: Exception) {
+            Log.e("DatabaseHelper", "Error creating tables", e)
+        }
     }
 
     override fun onUpgrade(
@@ -21,6 +32,7 @@ class DatabaseHelper (context: Context) : SQLiteOpenHelper(context, DB_NAME, nul
         newVersion: Int
     ) {
         db?.execSQL("DROP TABLE IF EXISTS ${UserContract.TABLE_NAME}")
+        db?.execSQL("DROP TABLE IF EXISTS ${ClientContract.TABLE_NAME}")
         onCreate(db)
     }
 }

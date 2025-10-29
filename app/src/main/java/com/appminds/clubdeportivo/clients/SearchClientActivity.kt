@@ -6,45 +6,67 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TableLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import com.appminds.clubdeportivo.R
+import com.appminds.clubdeportivo.data.dao.ClientDao
 import com.appminds.clubdeportivo.models.ClientDto
 import com.appminds.clubdeportivo.models.enums.ClientStatusEnum
 import com.appminds.clubdeportivo.models.enums.ClientTypeEnum
 
 class SearchClientActivity : AppCompatActivity() {
-    private val clientsMock = listOf(
-        ClientDto("Lucía", "Gómez", "25678901", "Av. Belgrano 123, CABA", "1145678901", "lucia.gomez@mail.com", true, ClientTypeEnum.SOCIO, ClientStatusEnum.ACTIVO),
-        ClientDto("Martín", "Ríos", "30123456", "Calle Mitre 456, Mendoza", "2617894560", "martin.rios@mail.com", true, ClientTypeEnum.NO_SOCIO, ClientStatusEnum.INACTIVO),
-        ClientDto("Sofía", "Herrera", "28345678", "Av. Alem 789, Tucumán", "3816543210", "sofia.herrera@mail.com", true, ClientTypeEnum.SOCIO, ClientStatusEnum.ACTIVO),
-        ClientDto("Carlos", "Méndez", "26987654", "Calle San Martín 321, Rosario", "3419876543", "carlos.mendez@mail.com", true, ClientTypeEnum.NO_SOCIO, ClientStatusEnum.INACTIVO),
-        ClientDto("Valentina", "López", "29456789", "Av. Rivadavia 1590, Córdoba", "3511234567", "valentina.lopez@mail.com", true, ClientTypeEnum.SOCIO, ClientStatusEnum.ACTIVO)
-    )
+    private lateinit var clientDao: ClientDao
+
+    // Views
+    private lateinit var searchInput: EditText
+    private lateinit var searchBtn: AppCompatButton
+    private lateinit var tlClientData: TableLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_search_client)
 
-        val searchInput = findViewById<EditText>(R.id.inputSearchClient)
-        val searchBtn = findViewById<AppCompatButton>(R.id.btnSearchClient)
-        val tlClientData = findViewById<TableLayout>(R.id.tlClientData)
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        clientDao = ClientDao(this)
 
-        val watcher = object  : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                searchBtn.isEnabled = searchInput.text.toString().trim().isNotEmpty()
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        initViews()
+        setUpListeners()
+    }
+
+    private fun initViews() {
+        searchInput = findViewById(R.id.inputSearchClient)
+        searchBtn = findViewById(R.id.btnSearchClient)
+        tlClientData = findViewById(R.id.tlClientData)
+
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
+    }
+
+    private fun setUpListeners() {
+        val textWatcher: (Editable?) -> Unit = { searchBtn.isEnabled = searchInput.text.toString().trim().isNotEmpty() }
+        searchInput.addTextChangedListener(afterTextChanged = textWatcher)
+
+
+        searchBtn.setOnClickListener { showDataClient() }
+    }
+
+    private fun showDataClient() {
+        val client = clientDao.getClientByDNI(searchInput.text.toString().trim())
+
+        if(client == null) {
+            tlClientData.isVisible = false
+            Toast.makeText(this, "Cliente no encontrado", Toast.LENGTH_SHORT).show()
+            return
         }
 
-        searchInput.addTextChangedListener(watcher)
-        searchBtn.setOnClickListener {
-            tlClientData.isVisible = true
-        }
-        btnBack.setOnClickListener { finish() }
+        findViewById<TextView>(R.id.tvClientId).text = client.id.toString()
+        findViewById<TextView>(R.id.tvClientName).text = "${client.firstname} ${client.lastname}"
+        findViewById<TextView>(R.id.tvClientType).text = client.type.toString()
+        findViewById<TextView>(R.id.tvClientStatus).text = client.status.toString()
+        tlClientData.isVisible = true
     }
 }
