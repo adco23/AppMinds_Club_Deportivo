@@ -150,17 +150,17 @@ class AddClientActivity : AppCompatActivity() {
 
                 // Crear y guardar cliente
                 val newClient = ClientEntity(
-                    id = null,
-                    firstname = firstname.text.toString().trim(),
-                    lastname = lastname.text.toString().trim(),
-                    dni = dni.text.toString().trim(),
-                    email = email.text.toString().trim(),
-                    phone = phone.text.toString().trim(),
-                    address = address.text.toString().trim(),
-                    registeredAt = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(System.currentTimeMillis()),
-                    isPhysicallyFit = cbSubmitDoc.isChecked,
-                    type = if (cbClientType.isChecked) ClientTypeEnum.SOCIO else ClientTypeEnum.NO_SOCIO,
-                    status = ClientStatusEnum.PENDIENTE
+                    null,
+                    firstname.text.toString().trim(),
+                    lastname.text.toString().trim(),
+                    dni.text.toString().trim(),
+                    email.text.toString().trim(),
+                    phone.text.toString().trim(),
+                    address.text.toString().trim(),
+                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(System.currentTimeMillis()),
+                    cbSubmitDoc.isChecked,
+                    if (cbClientType.isChecked) ClientTypeEnum.SOCIO else ClientTypeEnum.NO_SOCIO,
+                    ClientStatusEnum.PENDIENTE
                 )
 
                 val insertResult = withContext(Dispatchers.IO) {

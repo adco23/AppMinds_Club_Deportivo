@@ -8,9 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.appminds.clubdeportivo.R
 import com.appminds.clubdeportivo.adapters.PlantelAdapter
+import com.appminds.clubdeportivo.data.dao.ProfesorDao
 import com.appminds.clubdeportivo.models.ProfesorDto
 
 class PlantelActivity : AppCompatActivity() {
+    private lateinit var profesorDao: ProfesorDao
+    private lateinit var recyclerView: RecyclerView
+
     private val listMock = listOf(
         ProfesorDto("Laura", "Benítez", "Natación", "25678901", "Av. Rivadavia 1234, CABA", "1145678901", false ),
         ProfesorDto("Carlos", "Méndez", "Fútbol", "30123456", "Calle San Martín 456, Rosario", "3417894560", true ),
@@ -24,11 +28,16 @@ class PlantelActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_plantel)
 
-        val rvProfesores = findViewById<RecyclerView>(R.id.rvProfesores)
-        rvProfesores.layoutManager = LinearLayoutManager(this)
-        rvProfesores.adapter = PlantelAdapter(listMock)
+        profesorDao = ProfesorDao(this)
+        initViews()
+    }
 
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
-        btnBack.setOnClickListener { finish() }
+    private fun initViews() {
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
+        recyclerView = findViewById(R.id.rvProfesores)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val profesores = profesorDao.getAll().toMutableList()
+        recyclerView.adapter = PlantelAdapter(profesores)
     }
 }

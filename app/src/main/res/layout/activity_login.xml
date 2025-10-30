@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     style="@style/Window"
@@ -69,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Iniciar Sesión"
+            android:enabled="false"
             android:textAllCaps="false" />
         <TextView
             android:id="@+id/txtQuestion"

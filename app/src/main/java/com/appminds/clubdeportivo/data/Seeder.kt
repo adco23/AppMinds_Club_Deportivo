@@ -2,8 +2,10 @@ package com.appminds.clubdeportivo.data
 
 import android.content.Context
 import com.appminds.clubdeportivo.data.dao.ClientDao
+import com.appminds.clubdeportivo.data.dao.ProfesorDao
 import com.appminds.clubdeportivo.data.dao.UserDao
 import com.appminds.clubdeportivo.data.model.ClientEntity
+import com.appminds.clubdeportivo.data.model.ProfesorEntity
 import com.appminds.clubdeportivo.data.model.UserEntity
 import com.appminds.clubdeportivo.models.enums.ClientStatusEnum
 import com.appminds.clubdeportivo.models.enums.ClientTypeEnum
@@ -12,6 +14,8 @@ object Seeder {
     fun populateIfEmpty(context: Context) {
         val userDao = UserDao(context)
         val clientDao = ClientDao(context)
+        val profesorDao = ProfesorDao(context)
+
 
         if (userDao.getAll().isEmpty()) {
             val mockUser = listOf(
@@ -33,6 +37,21 @@ object Seeder {
                 ClientEntity(8, "Sofía", "Ramírez", "89012345", "sofia.ramirez@email.com", "+54911234574", "Pellegrini 258, Santa Fe", "2023-10-30", true, ClientTypeEnum.NO_SOCIO, ClientStatusEnum.INACTIVO)
             )
             clientsList.forEach { clientDao.insert(it) }
+        }
+
+        if(!profesorDao.isNotEmpty()) {
+            val profesorList = listOf(
+                ProfesorEntity(1, "María", "García", "12345678A", "Calle Mayor 15", "912345678", false, null),
+                ProfesorEntity(2, "Juan", "Martínez", "23456789B", "Avenida Libertad 23", "923456789", false, null),
+                ProfesorEntity(3, "Ana", "López", "34567890C", "Plaza España 8", "934567890", false, null),
+                ProfesorEntity(4, "Carlos", "Rodríguez", "45678901D", "Calle Sol 42", "945678901", false, null),
+                ProfesorEntity(5, "Laura", "Fernández", "56789012E", "Paseo Rosales 5", "956789012", false, null),
+                ProfesorEntity(6, "Pedro", "Sánchez", "67890123F", "Calle Luna 18", "967890123", true, null),
+                ProfesorEntity(7, "Elena", "Gómez", "78901234G", "Avenida Paz 30", "978901234", true, null),
+                ProfesorEntity(8, "Miguel", "Ruiz", "89012345H", "Calle Real 7", "989012345", true, null)
+            )
+
+            profesorList.forEach { profesorDao.insert(it) }
         }
     }
 }

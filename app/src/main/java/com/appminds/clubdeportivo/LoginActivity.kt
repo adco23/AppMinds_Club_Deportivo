@@ -8,60 +8,65 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import androidx.core.widget.addTextChangedListener
 import com.appminds.clubdeportivo.data.dao.UserDao
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var userDao: UserDao
     private lateinit var inputEmail: EditText
     private lateinit var inputPass: EditText
-    private lateinit var loginBtn: androidx.appcompat.widget.AppCompatButton
+    private lateinit var loginBtn: AppCompatButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
 
-        val userDao = UserDao(this)
+        userDao = UserDao(this)
 
-        inputEmail = findViewById<EditText>(R.id.inputEmail)
-        inputPass = findViewById<EditText>(R.id.inputPassword)
-        loginBtn = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.btnLogin)
+        initViews()
+        setupListeners()
+    }
 
-        loginBtn.isEnabled = false
+    private fun setupListeners() {
+        val textWatcher: (Editable?) -> Unit = { checkForm() }
+        inputEmail.addTextChangedListener(afterTextChanged = textWatcher)
+        inputPass.addTextChangedListener(afterTextChanged = textWatcher)
+    }
 
-        val watcher = object  : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { checkForm() }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        }
+    private fun initViews() {
+        inputEmail = findViewById(R.id.inputEmail)
+        inputPass = findViewById(R.id.inputPassword)
+        loginBtn = findViewById(R.id.btnLogin)
 
-        inputEmail.addTextChangedListener(watcher)
-        inputPass.addTextChangedListener(watcher)
-
-        loginBtn.setOnClickListener {
-            val user = userDao.getByEmail(inputEmail.text.toString())
-
-            if (user == null) {
-                Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
-            } else {
-                if (user.clave != inputPass.text.toString()) {
-                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Bienvenido ${user.nombre}", Toast.LENGTH_SHORT).show()
-
-                    val intent = Intent(this, MainMenuActivity::class.java).apply {
-                        putExtra("username", user.nombre)
-                    }
-
-                    startActivity(intent)
-                    finish()
-                }
-            }
-        }
+        loginBtn.setOnClickListener { login() }
     }
 
     private fun checkForm() {
         val email = inputEmail.text.toString().trim()
         val pass = inputPass.text.toString().trim()
         loginBtn.isEnabled = email.isNotEmpty() && pass.isNotEmpty()
+    }
+
+    private fun login() {
+        val user = userDao.getByEmail(inputEmail.text.toString())
+
+        if (user == null) {
+            Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+        } else {
+            if (user.clave != inputPass.text.toString()) {
+                Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Bienvenido ${user.nombre}", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, MainMenuActivity::class.java).apply {
+                    putExtra("username", user.nombre)
+                }
+
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 }

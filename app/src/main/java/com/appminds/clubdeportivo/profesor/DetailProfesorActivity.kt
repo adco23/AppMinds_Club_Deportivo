@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.isVisible
 import com.appminds.clubdeportivo.R
+import com.appminds.clubdeportivo.data.model.ProfesorEntity
 import com.appminds.clubdeportivo.models.ProfesorDto
 
 class DetailProfesorActivity : AppCompatActivity() {
@@ -19,10 +20,7 @@ class DetailProfesorActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_detail_profesor)
 
-        val profesor = intent.getSerializableExtra("profesor") as? ProfesorDto
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
-        val btnGoToUpdate = findViewById<AppCompatButton>(R.id.btnUpdateProfesor)
-        val btnDelete = findViewById<AppCompatButton>(R.id.btnDeleteProfesor)
+        val profesor = intent.getSerializableExtra("profesor") as? ProfesorEntity
 
         profesor?.let {
             "${it.firstname} ${it.lastname}".also { findViewById<TextView>(R.id.tvProfesorName).text = it }
@@ -30,17 +28,17 @@ class DetailProfesorActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.tvAddress).text = it.address
             findViewById<TextView>(R.id.tvPhone).text = it.phone
             findViewById<TableRow>(R.id.trIsSubstitute).isVisible = it.isSubstitute
-            findViewById<TextView>(R.id.tvActividad).text = it.activity
+            findViewById<TextView>(R.id.tvActividad).text = it.activity ?: "A definir"
         }
 
-        btnBack.setOnClickListener { finish() }
-        btnGoToUpdate.setOnClickListener {
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
+        findViewById<AppCompatButton>(R.id.btnUpdateProfesor).setOnClickListener {
             val intent = Intent(this, UpdateProfesorActivity::class.java).apply {
                 putExtra("profesor", profesor)
             }
             startActivity(intent)
         }
-        btnDelete.setOnClickListener {
+        findViewById<AppCompatButton>(R.id.btnDeleteProfesor).setOnClickListener {
 
             AlertDialog.Builder(this)
                 .setTitle("¿Deseás eliminar al profesor ${profesor?.firstname} ${profesor?.lastname}?")
