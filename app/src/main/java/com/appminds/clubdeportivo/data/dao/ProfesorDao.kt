@@ -3,8 +3,8 @@ package com.appminds.clubdeportivo.data.dao
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.util.Log
 import com.appminds.clubdeportivo.data.db.DatabaseHelper
-import com.appminds.clubdeportivo.data.db.contracts.ClientContract
 import com.appminds.clubdeportivo.data.db.contracts.ProfesorContract
 import com.appminds.clubdeportivo.data.model.ProfesorEntity
 
@@ -84,5 +84,21 @@ class ProfesorDao(context: Context) {
 
         cursor.close()
         return list
+    }
+
+    fun deleteById(profesorId: Int): Boolean {
+        val db = dbHelper.writableDatabase
+        val rowsDeleted = db.delete(
+            ProfesorContract.TABLE_NAME,
+            "${ProfesorContract.Columns.ID} = ?",
+            arrayOf(profesorId.toString()))
+
+        if (rowsDeleted > 0) {
+            Log.d("DB_DELETE", "Registro eliminado correctamente.")
+            return true
+        } else {
+            Log.e("DB_DELETE", "Erro al eliminar registro con ID: $profesorId.")
+            return false
+        }
     }
 }
