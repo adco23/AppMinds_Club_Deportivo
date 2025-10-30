@@ -11,22 +11,39 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.widget.addTextChangedListener
 import com.appminds.clubdeportivo.data.dao.UserDao
+import com.appminds.clubdeportivo.session.SessionManager
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var userDao: UserDao
     private lateinit var inputEmail: EditText
     private lateinit var inputPass: EditText
     private lateinit var loginBtn: AppCompatButton
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
 
+        sessionManager = SessionManager(this)
         userDao = UserDao(this)
+
+        if (sessionManager.isLoggedIn()) {
+            goToMainMenu()
+            return
+        }
 
         initViews()
         setupListeners()
+    }
+
+    private fun goToMainMenu() {
+        val intent = Intent(this, MainMenuActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        startActivity(intent)
+        finish()
     }
 
     private fun setupListeners() {
@@ -60,12 +77,14 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Bienvenido ${user.nombre}", Toast.LENGTH_SHORT).show()
 
-                val intent = Intent(this, MainMenuActivity::class.java).apply {
-                    putExtra("username", user.nombre)
-                }
+//                val intent = Intent(this, MainMenuActivity::class.java).apply {
+//                    putExtra("username", user.nombre)
+//                }
 
-                startActivity(intent)
-                finish()
+                sessionManager.createLoginSession(user.nombre)
+                goToMainMenu()
+//                startActivity(intent)
+//                finish()
             }
         }
     }

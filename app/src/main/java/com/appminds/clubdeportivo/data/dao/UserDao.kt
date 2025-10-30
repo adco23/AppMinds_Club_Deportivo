@@ -1,6 +1,5 @@
 package com.appminds.clubdeportivo.data.dao
 
-import android.R
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
