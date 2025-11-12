@@ -74,7 +74,6 @@ class AddClientActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        // Usar la extensión de Kotlin para simplificar
         val textWatcher: (Editable?) -> Unit = { validateForm() }
 
         firstname.addTextChangedListener(afterTextChanged = textWatcher)

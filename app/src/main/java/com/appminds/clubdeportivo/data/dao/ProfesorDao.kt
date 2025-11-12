@@ -101,4 +101,34 @@ class ProfesorDao(context: Context) {
             return false
         }
     }
+
+    fun getByDNI(dni: String): ProfesorEntity? {
+        val db = dbHelper.readableDatabase
+        val cursor: Cursor = db.query(
+            ProfesorContract.TABLE_NAME,
+            null,
+            "${ProfesorContract.Columns.DNI} LIKE ?",
+            arrayOf("%$dni%"),
+            null,
+            null,
+            null
+        )
+
+        var profesor: ProfesorEntity? = null
+        if (cursor.moveToFirst()) {
+            profesor = ProfesorEntity(
+                cursor.getInt(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.ID)),
+                cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.NOMBRE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.APELLIDO)),
+                cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.DNI)),
+                cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.DOMICILIO)),
+                cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.TELEFONO)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.ES_SUPLENTE)) == 1,
+            )
+        }
+
+        cursor.close()
+        db.close()
+        return profesor
+    }
 }
