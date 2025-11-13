@@ -7,10 +7,14 @@ import android.util.Log
 import com.appminds.clubdeportivo.data.db.contracts.ClientContract
 import com.appminds.clubdeportivo.data.db.contracts.ProfesorContract
 import com.appminds.clubdeportivo.data.db.contracts.UserContract
+// 💡 NUEVAS IMPORTACIONES
+import com.appminds.clubdeportivo.data.db.contracts.CuotaContract
+import com.appminds.clubdeportivo.data.db.contracts.PagoActividadContract
 
 class DatabaseHelper (context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
         private const val DB_NAME = "club_deportivo.db"
+        // Ver con ADRI
         private const val DB_VERSION = 1
     }
 
@@ -25,6 +29,14 @@ class DatabaseHelper (context: Context) : SQLiteOpenHelper(context, DB_NAME, nul
 
             db?.execSQL(ProfesorContract.CREATE_TABLE)
             Log.d("DatabaseHelper", "ProfesorContract table created")
+
+            // Tablas Marce
+            db?.execSQL(CuotaContract.CREATE_TABLE)
+            Log.d("DatabaseHelper", "CuotaContract table created")
+
+            db?.execSQL(PagoActividadContract.CREATE_TABLE)
+            Log.d("DatabaseHelper", "PagoActividadContract table created")
+
         } catch (e: Exception) {
             Log.e("DatabaseHelper", "Error creating tables", e)
         }
@@ -38,6 +50,11 @@ class DatabaseHelper (context: Context) : SQLiteOpenHelper(context, DB_NAME, nul
         db?.execSQL("DROP TABLE IF EXISTS ${UserContract.TABLE_NAME}")
         db?.execSQL("DROP TABLE IF EXISTS ${ClientContract.TABLE_NAME}")
         db?.execSQL("DROP TABLE IF EXISTS ${ProfesorContract.TABLE_NAME}")
+
+        // Tablas marce
+        db?.execSQL("DROP TABLE IF EXISTS ${CuotaContract.TABLE_NAME}")
+        db?.execSQL("DROP TABLE IF EXISTS ${PagoActividadContract.TABLE_NAME}")
+
         onCreate(db)
     }
 }

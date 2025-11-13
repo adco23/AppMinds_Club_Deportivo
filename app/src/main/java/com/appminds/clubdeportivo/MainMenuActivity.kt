@@ -13,6 +13,7 @@ import com.appminds.clubdeportivo.clients.AddClientActivity
 import com.appminds.clubdeportivo.clients.ClientOverdueActivity
 import com.appminds.clubdeportivo.clients.SearchClientActivity
 import com.appminds.clubdeportivo.actividad.ActividadMenuActivity
+import com.appminds.clubdeportivo.pagos.RegistrarPagoActivity
 import com.appminds.clubdeportivo.profesor.ProfesorMenuActivity
 import com.appminds.clubdeportivo.session.SessionManager
 
