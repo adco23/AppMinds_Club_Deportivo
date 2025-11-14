@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.appminds.clubdeportivo.data.db.contracts.ClientContract
+import com.appminds.clubdeportivo.data.db.contracts.ProfesorAttendanceContract
 import com.appminds.clubdeportivo.data.db.contracts.ProfesorContract
 import com.appminds.clubdeportivo.data.db.contracts.UserContract
 
@@ -25,6 +26,9 @@ class DatabaseHelper (context: Context) : SQLiteOpenHelper(context, DB_NAME, nul
 
             db?.execSQL(ProfesorContract.CREATE_TABLE)
             Log.d("DatabaseHelper", "ProfesorContract table created")
+
+            db?.execSQL(ProfesorAttendanceContract.CREATE_TABLE)
+            Log.d("DatabaseHelper", "ProfesorAttendanceContract table created")
         } catch (e: Exception) {
             Log.e("DatabaseHelper", "Error creating tables", e)
         }
@@ -38,6 +42,7 @@ class DatabaseHelper (context: Context) : SQLiteOpenHelper(context, DB_NAME, nul
         db?.execSQL("DROP TABLE IF EXISTS ${UserContract.TABLE_NAME}")
         db?.execSQL("DROP TABLE IF EXISTS ${ClientContract.TABLE_NAME}")
         db?.execSQL("DROP TABLE IF EXISTS ${ProfesorContract.TABLE_NAME}")
+        db?.execSQL("DROP TABLE IF EXISTS ${ProfesorAttendanceContract.TABLE_NAME}")
         onCreate(db)
     }
 }
