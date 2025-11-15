@@ -150,4 +150,36 @@ class ActividadDao(context: Context) {
             false
         }
     }
+
+    fun getByName(name: String): ActividadEntity? {
+        val db = dbHelper.readableDatabase
+        var actividad: ActividadEntity? = null
+
+        val cursor = db.query(
+            ActividadContract.TABLE_NAME,
+            null,
+            "${ActividadContract.Columns.NOMBRE} = ?",
+            arrayOf(name.trim()),
+            null,
+            null,
+            null,
+            "1" // sólo la primera coincidencia
+        )
+
+        if (cursor.moveToFirst()) {
+            actividad = ActividadEntity(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow(ActividadContract.Columns.ID)),
+                name = cursor.getString(cursor.getColumnIndexOrThrow(ActividadContract.Columns.NOMBRE)),
+                days = cursor.getString(cursor.getColumnIndexOrThrow(ActividadContract.Columns.DIAS)),
+                startTime = cursor.getString(cursor.getColumnIndexOrThrow(ActividadContract.Columns.HORA_INICIO)),
+                endTime = cursor.getString(cursor.getColumnIndexOrThrow(ActividadContract.Columns.HORA_FIN)),
+                price = cursor.getDouble(cursor.getColumnIndexOrThrow(ActividadContract.Columns.PRECIO)),
+                capacity = cursor.getInt(cursor.getColumnIndexOrThrow(ActividadContract.Columns.CUPO))
+            )
+        }
+
+        cursor.close()
+        db.close()
+        return actividad
+    }
 }

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatCheckBox
 import com.appminds.clubdeportivo.R
+import com.appminds.clubdeportivo.data.dao.ActividadDao
 import com.appminds.clubdeportivo.data.dao.ClientDao
 import com.appminds.clubdeportivo.data.dao.PagoDao
 import com.appminds.clubdeportivo.data.model.ClientEntity
@@ -21,10 +22,13 @@ import java.util.concurrent.ExecutorService
 
 
 
+
 class PagarActividadActivity : AppCompatActivity() {
 
     private lateinit var clientDao: ClientDao
     private lateinit var pagoDao: PagoDao
+
+    private lateinit var actividadDao: ActividadDao
 
     // Variables de estado
     private var clientId: Int = -1
@@ -59,6 +63,7 @@ class PagarActividadActivity : AppCompatActivity() {
 
         clientDao = ClientDao(this)
         pagoDao = PagoDao(this)
+        actividadDao = ActividadDao(this)
 
         initData()
         initViews()
@@ -107,8 +112,8 @@ class PagarActividadActivity : AppCompatActivity() {
     }
 
     /**
-    * Muestra el selector de fechas y actualiza los campos de Pago
-    */
+     * Muestra el selector de fechas y actualiza los campos de Pago
+     */
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
 
@@ -224,31 +229,51 @@ class PagarActividadActivity : AppCompatActivity() {
             return
         }
 
-        // 💡 CONVERSIÓN DE FECHA
-        val fechaPagoMillis = convertDateToTimestamp(fechaPagoText) // Usamos la función de conversión
-
-        if (fechaPagoMillis == null) {
-            Toast.makeText(this, "Debe seleccionar una fecha de pago válida.", Toast.LENGTH_LONG).show()
-            return // Detener la ejecución si la fecha es inválida
+        // Buscar la actividad por nombre en la BD
+        val actividad = actividadDao.getByName(nombreActividadIngresado)
+        if (actividad == null || actividad.id == null) {
+            Toast.makeText(
+                this,
+                "No se encontró una actividad con ese nombre.",
+                Toast.LENGTH_LONG
+            ).show()
+            return
         }
 
+        // Conversión de fecha
+        val fechaPagoMillis = convertDateToTimestamp(fechaPagoText)
+        if (fechaPagoMillis == null) {
+            Toast.makeText(this, "Debe seleccionar una fecha de pago válida.", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        // Relacionamos el pago con la actividad real
         val nuevoPago = PagoActividadEntity(
             idCliente = cliente.id!!,
-            idActividad = 1, // TEMPORAL
+            idActividad = actividad.id!!,   // 👈 YA NO ES 1 HARDCODEADO
             fechaPago = fechaPagoMillis,
             formaPago = formaPago
         )
 
         executePaymentTransaction(
-            nuevoPago,
-            monto,
+            nuevoPago = nuevoPago,
+            monto = monto,
+            nombreActividad = actividad.name,   // 👈 lo mandamos al comprobante
             isSuccessful = { pagoDao.registrarPagoActividad(nuevoPago) },
             successMessage = "Pago de actividad registrado con éxito.",
             nextActivity = PagoConfirmActivity::class.java
         )
     }
 
-    private fun executePaymentTransaction(nuevoPago: PagoActividadEntity, monto: Double, isSuccessful: () -> Boolean, successMessage: String, nextActivity: Class<*>) {
+
+    private fun executePaymentTransaction(
+        nuevoPago: PagoActividadEntity,
+        monto: Double,
+        nombreActividad: String,
+        isSuccessful: () -> Boolean,
+        successMessage: String,
+        nextActivity: Class<*>
+    ) {
         executor.execute {
             val result = isSuccessful()
 
@@ -256,19 +281,24 @@ class PagarActividadActivity : AppCompatActivity() {
                 if (result) {
                     Toast.makeText(this, successMessage, Toast.LENGTH_LONG).show()
                     val intent = Intent(this, nextActivity).apply {
-                        // Datos esenciales:
                         putExtra("CLIENTE_ID", nuevoPago.idCliente)
                         putExtra("MONTO", monto)
                         putExtra("FORMA_PAGO", nuevoPago.formaPago)
                         putExtra("FECHA_PAGO_MILLIS", nuevoPago.fechaPago)
                         putExtra("ES_CUOTA", false)
+                        putExtra("NOMBRE_ACTIVIDAD", nombreActividad)  // 👈 PARA EL COMPROBANTE
                     }
                     startActivity(intent)
                     finish()
                 } else {
-                    Toast.makeText(this, "Error al registrar el pago de actividad. La inserción falló.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        "Error al registrar el pago de actividad. La inserción falló.",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }
     }
+
 }
