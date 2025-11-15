@@ -79,7 +79,7 @@ class DetailProfesorActivity : AppCompatActivity() {
 
     private fun updateDetailsView() {
         val intent = Intent(this, UpdateProfesorActivity::class.java)
-            .apply { putExtra("profesor", profesor) }
+            .apply { putExtra("profesorID", profesor.id) }
         startActivity(intent)
     }
 

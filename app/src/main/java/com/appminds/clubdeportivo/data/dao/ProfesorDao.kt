@@ -5,26 +5,15 @@ import android.content.Context
 import android.database.Cursor
 import android.util.Log
 import com.appminds.clubdeportivo.data.db.DatabaseHelper
-import com.appminds.clubdeportivo.data.db.contracts.ProfesorAttendanceContract
 import com.appminds.clubdeportivo.data.db.contracts.ProfesorContract
-import com.appminds.clubdeportivo.data.model.ProfesorAttendanceEntity
 import com.appminds.clubdeportivo.data.model.ProfesorEntity
-import com.appminds.clubdeportivo.models.enums.AttendanceStatus
 
 class ProfesorDao(context: Context) {
     private val dbHelper = DatabaseHelper(context)
 
     fun insert(profesor: ProfesorEntity): Long {
         val db = dbHelper.writableDatabase
-        val values = ContentValues().apply {
-            put(ProfesorContract.Columns.NOMBRE, profesor.firstname)
-            put(ProfesorContract.Columns.APELLIDO, profesor.lastname)
-            put(ProfesorContract.Columns.DNI, profesor.dni)
-            put(ProfesorContract.Columns.TELEFONO, profesor.phone)
-            put(ProfesorContract.Columns.DOMICILIO, profesor.address)
-            put(ProfesorContract.Columns.ACTIVIDAD_ID, profesor.activity)
-            put(ProfesorContract.Columns.ES_SUPLENTE, if(profesor.isSubstitute) 1 else 0 )
-        }
+        val values = buildValues(profesor)
 
         return db.insert(ProfesorContract.TABLE_NAME, null, values)
     }
@@ -134,6 +123,29 @@ class ProfesorDao(context: Context) {
                     null
                 }
             } as ProfesorEntity
+        }
+    }
+
+    fun update(profesor: ProfesorEntity): Int {
+        val db = dbHelper.writableDatabase
+        val values = buildValues(profesor)
+        return db.update(
+            ProfesorContract.TABLE_NAME,
+            values,
+            "${ProfesorContract.Columns.ID} = ?",
+            arrayOf(profesor.id.toString())
+        )
+    }
+
+    private fun buildValues(profesor: ProfesorEntity): ContentValues {
+        return ContentValues().apply {
+            put(ProfesorContract.Columns.NOMBRE, profesor.firstname)
+            put(ProfesorContract.Columns.APELLIDO, profesor.lastname)
+            put(ProfesorContract.Columns.DNI, profesor.dni)
+            put(ProfesorContract.Columns.TELEFONO, profesor.phone)
+            put(ProfesorContract.Columns.DOMICILIO, profesor.address)
+            put(ProfesorContract.Columns.ACTIVIDAD_ID, profesor.activity)
+            put(ProfesorContract.Columns.ES_SUPLENTE, if (profesor.isSubstitute) 1 else 0)
         }
     }
 
