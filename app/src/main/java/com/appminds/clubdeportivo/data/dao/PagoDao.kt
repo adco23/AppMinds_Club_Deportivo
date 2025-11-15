@@ -8,7 +8,10 @@ import com.appminds.clubdeportivo.data.db.contracts.PagoActividadContract
 import com.appminds.clubdeportivo.data.db.contracts.SocioContract
 import com.appminds.clubdeportivo.data.model.CuotaEntity
 import com.appminds.clubdeportivo.data.model.PagoActividadEntity
+import android.util.Log
+import com.appminds.clubdeportivo.data.db.contracts.ClientContract
 
+private const val TAG = "PagoDao"
 class PagoDao(context: Context) {
     private val dbHelper = DatabaseHelper(context)
 
@@ -40,29 +43,29 @@ class PagoDao(context: Context) {
             val cuotaId = db.insert(CuotaContract.TABLE_NAME, null, cuotaValues)
 
             if (cuotaId > 0) {
-                // 3. ACTUALIZAR ESTADO DEL SOCIO
-                val socioValues = ContentValues().apply {
-                    put(SocioContract.Columns.ACTIVO, 1) // Estado 'activo'
-                    put(SocioContract.Columns.VENCIMIENTO, fechaNuevaVencimiento)
+                // 3. ACTUALIZAR ESTADO DEL CLIENTE (Usando la tabla CLIENTE)
+                val clienteValues = ContentValues().apply {
+                    // 🚨 ESTADO: Se establece la columna 'estado_membresia' a "ACTIVO"
+                    put(ClientContract.Columns.ESTADO, "ACTIVO")
+
                 }
 
                 val updatedRows = db.update(
-                    SocioContract.TABLE_NAME,
-                    socioValues,
-                    "${SocioContract.Columns.CLIENTE_ID} = ?",
+                    ClientContract.TABLE_NAME, // Apunta a la tabla CLIENTE
+                    clienteValues,
+                    "${ClientContract.Columns.ID} = ?", // Filtra por el ID del cliente
                     arrayOf(cuota.clienteId.toString())
                 )
 
                 if (updatedRows > 0) {
-                    db.setTransactionSuccessful() // Confirma la Transacción (Commit)
+                    db.setTransactionSuccessful() // Commit si ambos pasos fueron exitosos
                     success = true
                 }
             }
         } catch (e: Exception) {
-            // Log.e("PagoDao", "Error en transacción de cuota: ${e.message}")
-            success = false // Falla
+            // Manejo de error
+            success = false
         } finally {
-            // 4. FINALIZAR TRANSACCIÓN (hace Rollback si setTransactionSuccessful no fue llamado)
             db.endTransaction()
             db.close()
         }
@@ -82,6 +85,7 @@ class PagoDao(context: Context) {
             put(PagoActividadContract.Columns.FECHA_PAGO, pagoActividad.fechaPago)
             put(PagoActividadContract.Columns.FORMA_PAGO, pagoActividad.formaPago)
         }
+
 
         val newRowId = db.insert(PagoActividadContract.TABLE_NAME, null, pagoValues)
         db.close()

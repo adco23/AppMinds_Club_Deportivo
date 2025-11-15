@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="48sp"
-                android:hint="Buscar"
+                android:hint="Buscar Cliente"
                 android:inputType="number"/>
 
             <ImageView

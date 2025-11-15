@@ -15,7 +15,7 @@ class DatabaseHelper (context: Context) : SQLiteOpenHelper(context, DB_NAME, nul
     companion object {
         private const val DB_NAME = "club_deportivo.db"
         // Ver con ADRI
-        private const val DB_VERSION = 1
+        private const val DB_VERSION = 2
     }
 
     override fun onCreate(db: SQLiteDatabase?) {

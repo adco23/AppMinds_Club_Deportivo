@@ -125,4 +125,42 @@ class ClientDao(context: Context) {
             db.close()
         }
     }
+
+    fun getClientByID(id: Int): ClientEntity? {
+        val db = dbHelper.readableDatabase
+        var client: ClientEntity? = null
+        val selection = "${ClientContract.Columns.ID} = ?" // Columna ID = ?
+        val selectionArgs = arrayOf(id.toString()) // El valor del ID
+
+        // Ejecutar la consulta SQL SELECT
+        val cursor: Cursor = db.query(
+            ClientContract.TABLE_NAME,
+            null, // Devolver todas las columnas
+            selection,
+            selectionArgs,
+            null, null, null
+        )
+
+        with(cursor) {
+            if (moveToFirst()) {
+                client = ClientEntity(
+                    id = cursor.getInt(cursor.getColumnIndexOrThrow(ClientContract.Columns.ID)),
+                    firstname = cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.NOMBRE)),
+                    lastname = cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.APELLIDO)),
+                    dni = cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.DNI)),
+                    email = cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.CORREO)),
+                    phone = cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.TELEFONO)),
+                    address = cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.DOMICILIO)),
+                    registeredAt = cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.FECHA_ALTA)),
+                    isPhysicallyFit = cursor.getInt(cursor.getColumnIndexOrThrow(ClientContract.Columns.APTO_FISICO)) == 1,
+                    type = ClientTypeEnum.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.TIPO_CLIENTE))),
+                    status = ClientStatusEnum.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.ESTADO)))
+                )
+            }
+        }
+        cursor.close()
+        db.close()
+        return client
+    }
+
 }

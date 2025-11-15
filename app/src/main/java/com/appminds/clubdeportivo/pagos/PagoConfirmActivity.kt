@@ -8,12 +8,22 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.appminds.clubdeportivo.R
 
+
 class PagoConfirmActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_pago_confirm)
+        val origenExtras = intent.extras
 
+        val intent = Intent(this, PagoComprobanteActivity::class.java)
+
+        if (origenExtras != null) {
+            intent.putExtras(origenExtras)
+        }
+
+        startActivity(intent)
+        finish()
         val btnComprobante = findViewById<Button>(R.id.btnComprobante)
         val btnBack = findViewById<ImageButton>(R.id.btnGoToBack)
 
@@ -24,6 +34,7 @@ class PagoConfirmActivity : AppCompatActivity() {
 
         btnBack.setOnClickListener { finish() }
     }
+
 
 
 }
