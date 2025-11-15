@@ -14,5 +14,6 @@ data class ClientEntity (
     val registeredAt: String,
     val isPhysicallyFit: Boolean,
     val type: ClientTypeEnum,
-    val status: ClientStatusEnum
+    val status: ClientStatusEnum,
+    var dueDate: Int = 0
 )

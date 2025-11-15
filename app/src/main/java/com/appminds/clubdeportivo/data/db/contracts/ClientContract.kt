@@ -12,7 +12,8 @@ object ClientContract {
         const val TELEFONO = "telefono"
         const val DOMICILIO = "domicilio"
         const val FECHA_ALTA = "fecha_alta"
-        const val APTO_FISICO ="apto_fisico"
+        const val FECHA_VENCIMIENTO = "fecha_vencimiento"
+        const val APTO_FISICO = "apto_fisico"
         const val TIPO_CLIENTE = "tipo_cliente"
         const val ESTADO = "estado"
     }
@@ -27,6 +28,7 @@ object ClientContract {
             ${Columns.TELEFONO} TEXT NOT NULL,
             ${Columns.DOMICILIO} TEXT NOT NULL,
             ${Columns.FECHA_ALTA} TEXT NOT NULL,
+            ${Columns.FECHA_VENCIMIENTO} INTEGER NOT NULL DEFAULT 0,
             ${Columns.APTO_FISICO} INTEGER NOT NULL DEFAULT 0,
             ${Columns.TIPO_CLIENTE} TEXT NOT NULL,
             ${Columns.ESTADO} TEXT NOT NULL
