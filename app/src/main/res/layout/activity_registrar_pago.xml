@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:padding="40dp"
-    tools:context=".RegistrarPagoActivity">
+    tools:context=".pagos.RegistrarPagoActivity">
 
     <!-- Header común -->
     <RelativeLayout
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="48sp"
-                android:hint="Buscar"
+                android:hint="Buscar Cliente"
                 android:inputType="number"/>
 
             <ImageView

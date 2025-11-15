@@ -1,9 +1,10 @@
-package com.appminds.clubdeportivo
+package com.appminds.clubdeportivo.pagos
 
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.appminds.clubdeportivo.R
 
 class PagarActividadAtentionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

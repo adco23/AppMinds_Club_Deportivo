@@ -23,24 +23,44 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/registrarpagoactividad"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         style="@style/MainTitle"/>
 
     </RelativeLayout>
 
-      <TextView
+  <TextView
       android:id="@+id/textView2"
       android:layout_width="match_parent"
-      android:layout_height="61dp"
+      android:layout_height="wrap_content"
+      android:text="Cliente"
       android:textColor="@color/white"
-      android:textSize="16sp"
-      android:text="@string/cliente" />
+      android:textSize="14sp" />
+
+  <TextView
+      android:id="@+id/tvClientIdDisplay1"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/white"
+      android:textSize="14sp"
+      android:paddingStart="8dp"
+      android:text="ID: [Cargando...]" />
+
+  <TextView
+      android:id="@+id/tvClientNameDisplay1"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/white"
+      android:textSize="14sp"
+      android:paddingStart="8dp"
+      android:layout_marginBottom="11sp"
+      android:text="Nombre: [Cargando...]" />
+
 
 
 
 
   <EditText
-      android:id="@+id/inputEmail"
+      android:id="@+id/inputFechaPago"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginBottom="12sp"
@@ -53,7 +73,7 @@
       android:layout_height="wrap_content"
       android:hint="Actividad"
       android:inputType="text"
-      android:layout_marginBottom="12sp"/>
+      android:layout_marginBottom="11sp"/>
 
   <EditText
       android:id="@+id/inputMonto"
@@ -61,7 +81,7 @@
       android:layout_height="wrap_content"
       android:hint="$ Monto"
       android:inputType="number"
-      android:layout_marginBottom="12sp"/>
+      android:layout_marginBottom="11sp"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox
       android:id="@+id/cbIsEfectivo"

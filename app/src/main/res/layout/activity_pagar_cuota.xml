@@ -28,32 +28,49 @@
 
     </RelativeLayout>
 
-      <TextView
+  <TextView
       android:id="@+id/textView2"
       android:layout_width="match_parent"
-      android:layout_height="61dp"
+      android:layout_height="wrap_content"
+      android:text="Cliente"
       android:textColor="@color/white"
-      android:textSize="16sp"
-      android:text="@string/cliente" />
+      android:textSize="16sp" />
 
+  <TextView
+      android:id="@+id/tvClientIdDisplay"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/white"
+      android:textSize="14sp"
+      android:paddingStart="8dp"
+      android:text="ID: [Cargando...]" />
 
+  <TextView
+      android:id="@+id/tvClientNameDisplay"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/white"
+      android:textSize="14sp"
+      android:paddingStart="8dp"
+      android:layout_marginBottom="11sp"
+      android:text="Nombre: [Cargando...]" />
 
 
   <EditText
-      android:id="@+id/inputEmail"
+      android:id="@+id/inputFechaPago"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="12sp"
+      android:layout_marginBottom="11sp"
       android:hint="Fecha de Pago"
       android:inputType="textEmailAddress" />
 
   <EditText
-      android:id="@+id/inputFecha"
+      android:id="@+id/inputFechaVto"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="Fecha de Vencimiento"
       android:inputType="date"
-      android:layout_marginBottom="12sp"/>
+      android:layout_marginBottom="11sp"/>
 
   <EditText
       android:id="@+id/inputMonto"
@@ -61,7 +78,7 @@
       android:layout_height="wrap_content"
       android:hint="$ Monto Cuota"
       android:inputType="number"
-      android:layout_marginBottom="12sp"/>
+      android:layout_marginBottom="6sp"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox
       android:id="@+id/cbIsEfectivo"
@@ -84,7 +101,7 @@
       android:padding="6dp"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox
-      android:id="@+id/cbIsTarjeta2"
+      android:id="@+id/cbIsTarjeta3"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Tarjeta 3 pagos"
@@ -94,7 +111,7 @@
       android:padding="6dp"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox
-      android:id="@+id/cbIsTarjeta3"
+      android:id="@+id/cbIsTarjeta6"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Tarjeta 6 pagos"
@@ -109,7 +126,7 @@
       style="@style/ButtonPrimary"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="18sp"
+      android:layout_marginBottom="16sp"
       android:text="@string/pagar"
       android:visibility="visible"
       android:orientation="vertical"

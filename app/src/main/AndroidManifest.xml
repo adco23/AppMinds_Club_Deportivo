@@ -12,22 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClubDeportivo">
         <activity
-            android:name=".PagarActividadAtentionActivity"
+            android:name=".pagos.PagarActividadAtentionActivity"
             android:exported="false" />
         <activity
-            android:name=".PagoComprobanteActivity"
+            android:name=".pagos.PagoComprobanteActivity"
             android:exported="false" />
         <activity
-            android:name=".PagoConfirmActivity"
+            android:name=".pagos.PagoConfirmActivity"
             android:exported="false" />
         <activity
-            android:name=".PagarActividadActivity"
+            android:name=".pagos.PagarActividadActivity"
             android:exported="false" />
         <activity
-            android:name=".PagarCuotaActivity"
+            android:name=".pagos.PagarCuotaActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistrarPagoActivity"
+            android:name=".pagos.RegistrarPagoActivity"
             android:exported="false"/>
         <activity
             android:name=".clients.ClientOverdueActivity"

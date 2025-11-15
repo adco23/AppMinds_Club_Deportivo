@@ -39,7 +39,7 @@
             style="@style/MainTitle"/>
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/ClienteId"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textColor="@color/white"
@@ -47,20 +47,36 @@
             android:text="@string/cliente" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/NombreyApellido"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:text="@string/nombre_apellido"/>
+            android:text="Nombre y Apellido: "/>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/Concepto"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="20dp"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:text=" Concepto \n Monto \n Fecha \n Medio de Pago \n Nº Comprobante"/>
+            android:text=" Concepto:"/>
+
+        <TextView
+            android:id="@+id/Monto"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text=" Monto: "/>
+
+        <TextView
+            android:id="@+id/FechaPago"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text=" Fecha de Pago: "/>
 
         <ImageView
             android:layout_width="wrap_content"
