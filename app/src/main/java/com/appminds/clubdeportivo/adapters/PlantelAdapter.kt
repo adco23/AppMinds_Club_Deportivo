@@ -9,10 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.appminds.clubdeportivo.R
 import com.appminds.clubdeportivo.data.model.ProfesorEntity
+import com.appminds.clubdeportivo.models.PlantelCardDto
 import com.appminds.clubdeportivo.models.ProfesorDto
 import com.appminds.clubdeportivo.profesor.DetailProfesorActivity
 
-class PlantelAdapter(private var list: List<ProfesorEntity>) :
+class PlantelAdapter(private var list: List<PlantelCardDto>) :
     RecyclerView.Adapter<PlantelAdapter.CardViewHolder>() {
     inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvNombre: TextView = itemView.findViewById(R.id.tvNombre)
@@ -36,7 +37,7 @@ class PlantelAdapter(private var list: List<ProfesorEntity>) :
 
         holder.btnDetalles.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailProfesorActivity::class.java).apply {
-                putExtra("profesor", person)
+                putExtra("profesorID", person.id)
             }
 
             holder.itemView.context.startActivity(intent)

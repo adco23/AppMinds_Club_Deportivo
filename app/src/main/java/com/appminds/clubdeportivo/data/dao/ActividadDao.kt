@@ -62,7 +62,7 @@ class ActividadDao(context: Context) {
         return list
     }
 
-    fun getById(id: Int): ActividadEntity? {
+    fun getById(id: Int?): ActividadEntity? {
         val db = dbHelper.readableDatabase
         val cursor = db.query(
             ActividadContract.TABLE_NAME,

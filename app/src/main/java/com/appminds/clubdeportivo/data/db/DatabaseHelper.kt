@@ -13,7 +13,7 @@ import com.appminds.clubdeportivo.data.db.contracts.ActividadContract
 class DatabaseHelper (context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
         private const val DB_NAME = "club_deportivo.db"
-        private const val DB_VERSION = 3
+        private const val DB_VERSION = 4
     }
 
     override fun onCreate(db: SQLiteDatabase?) {

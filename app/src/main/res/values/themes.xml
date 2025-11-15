@@ -112,4 +112,33 @@
         <item name="android:layout_weight">0</item>
     </style>
 
+    !-- Estilos para textos -->
+    <style name="LabelText">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="HighlightText">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="HighlightText.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="InfoLabel">
+        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:alpha">0.7</item>
+    </style>
+
+    <style name="InfoValue">
+        <item name="android:textColor">@color/main</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
 </resources>

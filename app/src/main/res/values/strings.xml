@@ -25,6 +25,12 @@
     <string name="pagarcuota">"Pagar cuota"</string>
     <string name="pagaractividad">"Pagar actividad"</string>
     <string name="pagar">"Pagar"</string>
+    <string name="assign_activity">Asigná una actividad</string>
+    <string name="you_selected">Seleccionaste:</string>
+    <string name="attendance_days">Días de atención</string>
+    <string name="start_time">Hora de inicio</string>
+    <string name="end_time">Hora de fin</string>
+    <string name="save">Guardar</string>
 
 
     <string-array name="options_example">

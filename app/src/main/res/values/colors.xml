@@ -13,4 +13,6 @@
     <color name="rose">#fcb3ad</color>
     <color name="dark_rose">#c98e89</color>
     <color name="red">#ec221f</color>
+    <color name="card_background">#F8F9FA</color>
+    <color name="spinner_background">#FFFFFF</color>
 </resources>

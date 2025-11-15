@@ -10,5 +10,5 @@ data class ProfesorEntity(
     val address: String,
     val phone: String,
     val isSubstitute: Boolean,
-    var activity: String? = null
+    var activity: Int? = null
 ) : Serializable

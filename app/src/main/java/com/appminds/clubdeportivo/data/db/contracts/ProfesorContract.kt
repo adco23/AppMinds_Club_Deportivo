@@ -11,6 +11,7 @@ object ProfesorContract {
         const val TELEFONO = "telefono"
         const val DOMICILIO = "domicilio"
         const val ES_SUPLENTE = "es_suplente"
+        const val ACTIVIDAD_ID = "actividad_id"
     }
 
     const val CREATE_TABLE: String = """
@@ -21,7 +22,8 @@ object ProfesorContract {
             ${Columns.DNI} TEXT NOT NULL UNIQUE,
             ${Columns.TELEFONO} TEXT NOT NULL,
             ${Columns.DOMICILIO} TEXT NOT NULL,
-            ${Columns.ES_SUPLENTE} INT NOT NULL DEFAULT 0
+            ${Columns.ACTIVIDAD_ID} INTEGER NOT NULL,
+            ${Columns.ES_SUPLENTE} INTEGER NOT NULL DEFAULT 0
         );
     """
 }

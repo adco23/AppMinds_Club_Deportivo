@@ -16,9 +16,14 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.widget.addTextChangedListener
 import com.appminds.clubdeportivo.R
+import com.appminds.clubdeportivo.data.dao.ActividadDao
+import com.appminds.clubdeportivo.data.dao.ProfesorDao
 import com.appminds.clubdeportivo.models.ProfesorDto
 
 class   UpdateProfesorActivity : AppCompatActivity() {
+    private val profesorDao by lazy { ProfesorDao(this) }
+    private val activityDao by lazy { ActividadDao(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

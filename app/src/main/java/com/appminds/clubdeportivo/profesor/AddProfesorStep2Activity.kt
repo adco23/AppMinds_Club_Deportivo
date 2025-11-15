@@ -25,145 +25,215 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddProfesorStep2Activity : AppCompatActivity() {
-    private lateinit var profesorDao: ProfesorDao
-    private lateinit var actividadDao: ActividadDao
+    // DAOs
+    private val profesorDao by lazy { ProfesorDao(this) }
+    private val actividadDao by lazy { ActividadDao(this) }
 
-    private var isSaving = false
+    // Datos
     private lateinit var profesor: ProfesorEntity
-    private lateinit var updateProfesor: ProfesorEntity
+    private var activityList: List<ActividadEntity> = emptyList()
+    private var selectedActivity: ActividadEntity? = null
+    private var selectedActivityName: String? = null
 
+    // Views
     private lateinit var btnSave: AppCompatButton
     private lateinit var spinner: Spinner
-    private lateinit var container: LinearLayout
-    private lateinit var txtSelected: TextView
-
-    private lateinit var actividades: List<ActividadEntity>
-    private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var activityContainer: LinearLayout
+    private lateinit var txtSelectedActivity: TextView
+    private lateinit var tvDaysValue: TextView
+    private lateinit var tvStartTimeValue: TextView
+    private lateinit var tvEndTimeValue: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_add_profesor_step2)
 
-        profesorDao = ProfesorDao(this)
-        actividadDao = ActividadDao(this)
-
-        profesor = intent.getSerializableExtra("profesor") as ProfesorEntity
-
+        extractProfesorFromIntent()
         initViews()
-        loadActividades()
+        loadActivities()
+    }
+
+    private fun extractProfesorFromIntent() {
+        profesor = (intent.getSerializableExtra("profesor") as? ProfesorEntity)
+            ?: run {
+                showError("Error al obtener datos del profesor")
+                finish()
+                return
+            }
     }
 
     private fun initViews() {
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
         btnSave = findViewById(R.id.btnAddProfSave)
         spinner = findViewById(R.id.spinnerOptions)
-        container = findViewById(R.id.ActivitySelectedContainer)
-        txtSelected = findViewById(R.id.ActivitySelected)
+        activityContainer = findViewById(R.id.ActivitySelectedContainer)
+        txtSelectedActivity  = findViewById(R.id.ActivitySelected)
+        tvDaysValue = findViewById(R.id.tvDaysValue)
+        tvStartTimeValue = findViewById(R.id.tvStartTimeValue)
+        tvEndTimeValue = findViewById(R.id.tvEndTimeValue)
 
-        btnSave.isEnabled = false
-        container.isVisible = false
+
+        updateSaveButtonState(false)
+        activityContainer.isVisible = false
     }
 
-    private fun loadActividades() {
+    private fun loadActivities() {
         lifecycleScope.launch {
-            actividades = withContext(Dispatchers.IO) {
-                actividadDao.getAll()
-            }
-
-            if (actividades.isEmpty()) {
-                Toast.makeText(
-                    this@AddProfesorStep2Activity,
-                    "No hay actividades registradas. Primero registrá una actividad (Yoga, Fútbol, etc.).",
-                    Toast.LENGTH_LONG
-                ).show()
-                btnSave.isEnabled = false
-                return@launch
-            }
-
-            // armamos la lista de nombres para el spinner
-            val nombres = mutableListOf<String>()
-            nombres.add("") // opción vacía inicial
-            nombres.addAll(actividades.map { it.name })
-
-            adapter = ArrayAdapter(
-                this@AddProfesorStep2Activity,
-                android.R.layout.simple_spinner_item,
-                nombres
-            )
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-
-            setupSpinnerListener()
-            setupSaveClick()
-        }
-    }
-
-    private fun setupSpinnerListener() {
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selection = parent?.getItemAtPosition(position).toString()
-
-                if (selection.isNotBlank()) {
-                    container.isVisible = true
-                    btnSave.isEnabled = true
-                    txtSelected.text = selection
-                    updateProfesor = profesor.copy(activity = selection)
-                } else {
-                    container.isVisible = false
-                    btnSave.isEnabled = false
-                    profesor.activity = null
+            try {
+                activityList = withContext(Dispatchers.IO) {
+                    actividadDao.getAll()
                 }
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // No hacer nada
+                if (activityList.isEmpty()) {
+                    showNoActivitiesError()
+                    return@launch
+                }
+
+                setupSpinner(activityList)
+                setupSaveButton()
+
+            } catch (e: Exception) {
+                showError("Error al cargar actividades: ${e.message}")
             }
         }
     }
 
-    private fun setupSaveClick() {
+    private fun showNoActivitiesError() {
+        Toast.makeText(
+            this,
+            "No hay actividades registradas. Primero registrá una actividad (Yoga, Fútbol, etc.).",
+            Toast.LENGTH_LONG
+        ).show()
+        updateSaveButtonState(false)
+    }
+
+    private fun setupSpinner(activities: List<ActividadEntity>) {
+        val spinnerItems = buildSpinnerItems(activities)
+
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            spinnerItems
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = createSpinnerListener()
+    }
+
+    private fun buildSpinnerItems(activities: List<ActividadEntity>): List<String> {
+        return mutableListOf<String>().apply {
+            add(SPINNER_HINT)
+            addAll(activities.map { it.name })
+        }
+    }
+
+    private fun createSpinnerListener() = object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(
+            parent: AdapterView<*>?,
+            view: View?,
+            position: Int,
+            id: Long
+        ) {
+            val selection = parent?.getItemAtPosition(position)?.toString() ?: ""
+            handleActivitySelection(selection)
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>) {
+            handleActivitySelection("")
+        }
+    }
+
+    private fun handleActivitySelection(activityName: String) {
+        val isValidSelection = activityName.isNotBlank() && activityName != SPINNER_HINT
+
+        if (isValidSelection) {
+            selectedActivityName = activityName
+            selectedActivity = activityList.find { it.name === selectedActivityName }
+            showActivityPreview(selectedActivity)
+            updateSaveButtonState(true)
+        } else {
+            selectedActivityName = null
+            hideActivityPreview()
+            updateSaveButtonState(false)
+        }
+    }
+
+    private fun showActivityPreview(activity: ActividadEntity?) {
+        activityContainer.isVisible = true
+        txtSelectedActivity.text = activity?.name
+        tvDaysValue.text = activity?.days
+        tvStartTimeValue.text = activity?.startTime
+        tvEndTimeValue.text = activity?.endTime
+    }
+
+    private fun hideActivityPreview() {
+        activityContainer.isVisible = false
+    }
+
+    private fun updateSaveButtonState(enabled: Boolean) {
+        btnSave.isEnabled = enabled
+    }
+
+    private fun setupSaveButton() {
         btnSave.setOnClickListener {
-            if (isSaving) return@setOnClickListener
-            isSaving = true
-            btnSave.isEnabled = false
+            if (!btnSave.isEnabled) return@setOnClickListener
+            saveProfesor()
+        }
+    }
 
-            lifecycleScope.launch {
-                try {
-                    val insertResult = withContext(Dispatchers.IO) {
-                        profesorDao.insert(updateProfesor)
-                    }
+    private fun saveProfesor() {
+        // Deshabilitar botón para evitar clicks múltiples
+        updateSaveButtonState(false)
 
-                    if (insertResult > 0) {
-                        updateProfesor.id = insertResult.toInt()
-                        val intent = Intent(
-                            this@AddProfesorStep2Activity,
-                            ProfesorConfirmActivity::class.java
-                        )
-                        intent.putExtra("message", "¡Profesor registrado con éxito!")
-                        intent.putExtra("labelBtn", "Volver a menú")
-                        intent.putExtra("goTo", AddProfesorActivity::class.java)
+        lifecycleScope.launch {
+            try {
+                val profesorToSave = profesor.copy(activity = selectedActivity?.id)
 
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        throw Exception("Error al guardar el profesor")
-                    }
-                } catch (e: Exception) {
-                    Toast.makeText(
-                        this@AddProfesorStep2Activity,
-                        "Error al guardar: ${e.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    isSaving = false
-                    btnSave.isEnabled = true
+                val profesorId = withContext(Dispatchers.IO) {
+                    profesorDao.insert(profesorToSave)
                 }
+
+                if (profesorId > 0) {
+                    navigateToConfirmation()
+                } else {
+                    throw ProfesorSaveException("No se pudo guardar el profesor")
+                }
+
+            } catch (e: ProfesorSaveException) {
+                handleSaveError(e.message ?: "Error desconocido")
+            } catch (e: Exception) {
+                handleSaveError("Error inesperado: ${e.message}")
             }
         }
+    }
+
+    private fun handleSaveError(message: String) {
+        showError(message)
+        updateSaveButtonState(true)
+    }
+
+    private fun navigateToConfirmation() {
+        val intent = Intent(this, ProfesorConfirmActivity::class.java).apply {
+            putExtra("message", "¡Profesor registrado con éxito!")
+            putExtra("labelBtn", "Volver a menú")
+            putExtra("goTo", AddProfesorActivity::class.java)
+        }
+
+        startActivity(intent)
+        finish()
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    // Excepción personalizada para errores de guardado
+    private class ProfesorSaveException(message: String) : Exception(message)
+
+    companion object {
+        private const val SPINNER_HINT = "Seleccionar actividad"
     }
 }

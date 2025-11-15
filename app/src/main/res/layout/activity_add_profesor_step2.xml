@@ -1,127 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
     android:padding="40dp">
 
+    <!-- Header con botón back y título -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp">
 
-        <!-- Botón atrás -->
         <ImageButton
             android:id="@+id/btnBack"
             style="@style/BtnBack"
             android:contentDescription="@string/btn_back_description" />
 
-        <!-- Título -->
         <TextView
+            android:id="@+id/tvTitle"
+            style="@style/MainTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/add_profesor"
-            android:paddingHorizontal="35sp"
-            style="@style/MainTitle"/>
+            android:paddingStart="35dp"
+            android:paddingEnd="35dp"
+            android:text="@string/add_profesor" />
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/profesorOptContainer"
+    <!-- Contenido principal con scroll -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="50dp"
         android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/green"
-            android:layout_marginBottom="8dp"
-            android:text="Asigná una actividad" />
-
-        <Spinner
-            android:id="@+id/spinnerOptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:background="@color/desabledBg"
-            android:padding="8sp"/>
-
+        android:fillViewport="true">
 
         <LinearLayout
-            android:id="@+id/ActivitySelectedContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="24dp"
-            android:visibility="invisible">
-
-            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Seleccionaste:"
-                    android:textColor="@color/green"
-                    android:textSize="20sp" />
+            android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/ActivitySelected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Opción"
-                    android:textColor="@color/green"
-                    android:textSize="20sp"
-                    android:paddingLeft="10sp"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-
-            <TableLayout
-                android:id="@+id/timeTable"
+            <!-- Sección de selección de actividad -->
+            <TextView
+                android:id="@+id/tvActivityLabel"
+                style="@style/LabelText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:layout_marginBottom="8dp"
+                android:labelFor="@id/spinnerOptions"
+                android:text="@string/assign_activity" />
 
-                <!-- Encabezado -->
-                <TableRow>
-                    <TextView android:text="Días" style="@style/TableHeaderText"/>
-                    <TextView android:text="Inicio" style="@style/TableHeaderText"/>
-                    <TextView android:text="Fin" style="@style/TableHeaderText"/>
-                </TableRow>
+            <Spinner
+                android:id="@+id/spinnerOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_spinner"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:spinnerMode="dropdown"
+                android:popupBackground="@color/spinner_background"
+                tools:listitem="@android:layout/simple_spinner_dropdown_item" />
 
-                <!-- Fila 1 -->
-                <TableRow>
-                    <TextView android:text="Lunes" style="@style/TableRowText"/>
-                    <TextView android:text="17:00" style="@style/TableRowText"/>
-                    <TextView android:text="20:00" style="@style/TableRowText"/>
-                </TableRow>
+            <!-- Contenedor de actividad seleccionada -->
+            <LinearLayout
+                android:id="@+id/ActivitySelectedContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
-                <!-- Fila 2 -->
-                <TableRow>
-                    <TextView android:text="Jueves" style="@style/TableRowText"/>
-                    <TextView android:text="17:00" style="@style/TableRowText"/>
-                    <TextView android:text="20:00" style="@style/TableRowText"/>
-                </TableRow>
-        </TableLayout>
+                <!-- Actividad seleccionada -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:id="@+id/tvSelectedLabel"
+                        style="@style/HighlightText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/you_selected" />
+
+                    <TextView
+                        android:id="@+id/ActivitySelected"
+                        style="@style/HighlightText.Bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        tools:text="Yoga" />
+                </LinearLayout>
+
+                <!-- Información de horarios -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvScheduleInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardBackgroundColor="@color/card_background"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- Días de atención -->
+                        <TextView
+                            android:id="@+id/tvDaysLabel"
+                            style="@style/InfoLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/attendance_days" />
+
+                        <TextView
+                            android:id="@+id/tvDaysValue"
+                            style="@style/InfoValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            tools:text="Lunes, Jueves" />
+
+                        <!-- Horario de inicio -->
+                        <TextView
+                            android:id="@+id/tvStartTimeLabel"
+                            style="@style/InfoLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/start_time" />
+
+                        <TextView
+                            android:id="@+id/tvStartTimeValue"
+                            style="@style/InfoValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            tools:text="09:00" />
+
+                        <!-- Horario de fin -->
+                        <TextView
+                            android:id="@+id/tvEndTimeLabel"
+                            style="@style/InfoLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/end_time" />
+
+                        <TextView
+                            android:id="@+id/tvEndTimeValue"
+                            style="@style/InfoValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="12:00" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
+    <!-- Botón guardar -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnAddProfSave"
         style="@style/ButtonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:enabled="false"
-        android:text="Guardar"
+        android:minHeight="48dp"
+        android:text="@string/save"
         android:textAllCaps="false" />
 
 </LinearLayout>

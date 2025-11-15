@@ -5,8 +5,11 @@ import android.content.Context
 import android.database.Cursor
 import android.util.Log
 import com.appminds.clubdeportivo.data.db.DatabaseHelper
+import com.appminds.clubdeportivo.data.db.contracts.ProfesorAttendanceContract
 import com.appminds.clubdeportivo.data.db.contracts.ProfesorContract
+import com.appminds.clubdeportivo.data.model.ProfesorAttendanceEntity
 import com.appminds.clubdeportivo.data.model.ProfesorEntity
+import com.appminds.clubdeportivo.models.enums.AttendanceStatus
 
 class ProfesorDao(context: Context) {
     private val dbHelper = DatabaseHelper(context)
@@ -19,6 +22,7 @@ class ProfesorDao(context: Context) {
             put(ProfesorContract.Columns.DNI, profesor.dni)
             put(ProfesorContract.Columns.TELEFONO, profesor.phone)
             put(ProfesorContract.Columns.DOMICILIO, profesor.address)
+            put(ProfesorContract.Columns.ACTIVIDAD_ID, profesor.activity)
             put(ProfesorContract.Columns.ES_SUPLENTE, if(profesor.isSubstitute) 1 else 0 )
         }
 
@@ -68,17 +72,7 @@ class ProfesorDao(context: Context) {
         val list = mutableListOf<ProfesorEntity>()
         with(cursor) {
             while (moveToNext()) {
-                list.add(
-                    ProfesorEntity(
-                        getInt(getColumnIndexOrThrow(ProfesorContract.Columns.ID)),
-                        getString(getColumnIndexOrThrow(ProfesorContract.Columns.NOMBRE)),
-                        getString(getColumnIndexOrThrow(ProfesorContract.Columns.APELLIDO)),
-                        getString(getColumnIndexOrThrow(ProfesorContract.Columns.DNI)),
-                        getString(getColumnIndexOrThrow(ProfesorContract.Columns.DOMICILIO)),
-                        getString(getColumnIndexOrThrow(ProfesorContract.Columns.TELEFONO)),
-                        getInt(getColumnIndexOrThrow(ProfesorContract.Columns.ES_SUPLENTE)) == 1,
-                    )
-                )
+                list.add( extractFromCursor(cursor) )
             }
         }
 
@@ -97,7 +91,7 @@ class ProfesorDao(context: Context) {
             Log.d("DB_DELETE", "Registro eliminado correctamente.")
             return true
         } else {
-            Log.e("DB_DELETE", "Erro al eliminar registro con ID: $profesorId.")
+            Log.e("DB_DELETE", "Error al eliminar registro con ID: $profesorId.")
             return false
         }
     }
@@ -115,20 +109,44 @@ class ProfesorDao(context: Context) {
         )
 
         var profesor: ProfesorEntity? = null
-        if (cursor.moveToFirst()) {
-            profesor = ProfesorEntity(
-                cursor.getInt(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.ID)),
-                cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.NOMBRE)),
-                cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.APELLIDO)),
-                cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.DNI)),
-                cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.DOMICILIO)),
-                cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.TELEFONO)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.ES_SUPLENTE)) == 1,
-            )
-        }
+        if (cursor.moveToFirst()) { profesor = extractFromCursor(cursor) }
 
         cursor.close()
         db.close()
         return profesor
+    }
+
+    fun getByID(id: Int): ProfesorEntity {
+        return dbHelper.readableDatabase.use { db ->
+            val cursor = db.query(        ProfesorContract.TABLE_NAME,
+                null,
+                "${ProfesorContract.Columns.ID} LIKE ?",
+                arrayOf(id.toString()),
+                null,
+                null,
+                null
+            )
+
+            cursor.use {
+                if (it.moveToFirst()) {
+                    extractFromCursor(it)
+                } else {
+                    null
+                }
+            } as ProfesorEntity
+        }
+    }
+
+    private fun extractFromCursor(cursor: Cursor): ProfesorEntity {
+        return ProfesorEntity(
+            cursor.getInt(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.ID)),
+            cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.NOMBRE)),
+            cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.APELLIDO)),
+            cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.DNI)),
+            cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.DOMICILIO)),
+            cursor.getString(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.TELEFONO)),
+            cursor.getInt(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.ES_SUPLENTE)) == 1,
+            cursor.getInt(cursor.getColumnIndexOrThrow(ProfesorContract.Columns.ACTIVIDAD_ID))
+        )
     }
 }
