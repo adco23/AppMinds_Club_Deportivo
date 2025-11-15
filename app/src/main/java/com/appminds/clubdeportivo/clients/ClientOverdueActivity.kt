@@ -2,15 +2,20 @@ package com.appminds.clubdeportivo.clients
 
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.appminds.clubdeportivo.R
 import com.appminds.clubdeportivo.adapters.OverdueClientAdapter
+import com.appminds.clubdeportivo.data.dao.ClientDao
 import com.appminds.clubdeportivo.models.OverdueClientDto
+import com.appminds.clubdeportivo.models.PlantelCardDto
+import kotlin.getValue
 
 class ClientOverdueActivity : AppCompatActivity() {
+    private val clienteDao by lazy { ClientDao(this) }
     private val listMock = listOf(
         OverdueClientDto("Lucía Gómez", "25.678.901", "2025-08-15", "Vencido"),
         OverdueClientDto("Martín Ríos", "30.123.456", "2025-07-10", "Vencido"),
@@ -29,12 +34,20 @@ class ClientOverdueActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_client_overdue)
 
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
-        btnBack.setOnClickListener { finish() }
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
+        //TODO ajustar fecha que se pasa
+        val clientList = clienteDao.getMosososByDate(System.currentTimeMillis())
 
-        val rvClients = findViewById<RecyclerView>(R.id.rvOverdueClientList)
-        rvClients.layoutManager = LinearLayoutManager(this)
-        rvClients.adapter = OverdueClientAdapter(listMock)
+        if (clientList.isEmpty()) {
+            Toast.makeText(this, "No hay clientes con cuotas vencidas en el día de hoy.", Toast.LENGTH_SHORT).show()
+        } else {
+            val list: MutableList<OverdueClientDto> = clientList.map { c ->
+                OverdueClientDto("${c.firstname} ${c.lastname}", c.dni, c.dueDate.toString(), "Vencido")
+            }.toMutableList()
 
+            val rvClients = findViewById<RecyclerView>(R.id.rvOverdueClientList)
+            rvClients.layoutManager = LinearLayoutManager(this)
+            rvClients.adapter = OverdueClientAdapter(list)
+        }
     }
 }

@@ -126,6 +126,26 @@ class ClientDao(context: Context) {
         return client
     }
 
+    fun getMosososByDate(date: Long): List<ClientEntity> {
+        val db = dbHelper.readableDatabase
+        val cursor: Cursor = db.query(
+            ClientContract.TABLE_NAME,
+            null,
+            "${ClientContract.Columns.FECHA_VENCIMIENTO} = ?",
+            arrayOf(date.toString()),
+            null, null, null, null
+        )
+
+        val list = mutableListOf<ClientEntity>()
+        with(cursor) {
+            while (moveToNext()) {
+                list.add( getCursorValues(cursor) )
+            }
+        }
+        cursor.close()
+        return list
+    }
+
     private fun getCursorValues(cursor: Cursor): ClientEntity {
         return ClientEntity(
             id = cursor.getInt(cursor.getColumnIndexOrThrow(ClientContract.Columns.ID)),

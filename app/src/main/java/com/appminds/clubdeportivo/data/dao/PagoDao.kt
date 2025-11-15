@@ -47,7 +47,7 @@ class PagoDao(context: Context) {
                 val clienteValues = ContentValues().apply {
                     // 🚨 ESTADO: Se establece la columna 'estado_membresia' a "ACTIVO"
                     put(ClientContract.Columns.ESTADO, "ACTIVO")
-
+                    put(ClientContract.Columns.FECHA_VENCIMIENTO, fechaNuevaVencimiento)
                 }
 
                 val updatedRows = db.update(
