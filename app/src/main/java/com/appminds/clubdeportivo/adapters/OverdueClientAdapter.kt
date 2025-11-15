@@ -8,12 +8,15 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.appminds.clubdeportivo.R
+import com.appminds.clubdeportivo.models.ClientDto
 import com.appminds.clubdeportivo.models.OverdueClientDto
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class OverdueClientAdapter(private var list: List<OverdueClientDto>):
     RecyclerView.Adapter<OverdueClientAdapter.CardViewHolder>() {
+
     inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvClientName: TextView = itemView.findViewById(R.id.tvClientName)
         val tvClientStatus: TextView = itemView.findViewById(R.id.tvClientStatus)
@@ -30,22 +33,24 @@ class OverdueClientAdapter(private var list: List<OverdueClientDto>):
 
     }
 
+
+
     override fun onBindViewHolder(
         holder: CardViewHolder,
         position: Int
     ) {
         val client = list[position]
-
         val color = ContextCompat.getColor(holder.itemView.context, R.color.red)
         holder.tvClientStatus.setTextColor(color)
-
         holder.tvClientName.text = client.name
         holder.tvClientStatus.text = client.status
         holder.tvClientDNI.text = client.dni
 
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-        val date = inputFormat.parse(client.due)
+        val date = Date(client.dueDate)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        holder.tvClientDue.text = dateFormat.format(date)
         holder.tvClientDue.isAllCaps = true
         holder.tvClientDue.text = outputFormat.format(date)
 

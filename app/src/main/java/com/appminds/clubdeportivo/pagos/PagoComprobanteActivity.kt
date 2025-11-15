@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.appminds.clubdeportivo.R
 import com.appminds.clubdeportivo.data.dao.ClientDao
-import com.appminds.clubdeportivo.data.model.ClientEntity
 import com.appminds.clubdeportivo.utils.formatTimestampToDateString // Importar función de utilidad
 import java.util.concurrent.Executors
 import java.util.concurrent.ExecutorService
