@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
     android:orientation="vertical"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:padding="40dp">
 
     <!-- Header -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:layout_height="wrap_content">
 
         <ImageButton
             android:id="@+id/btnBack"
@@ -19,12 +17,12 @@
 
         <TextView
             android:id="@+id/tvTitle"
-            style="@style/MainTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Modificar actividad"
-            android:paddingHorizontal="50dp"/>
+            android:text="Editar actividad"
+            android:paddingHorizontal="50dp"
+            style="@style/MainTitle"/>
     </RelativeLayout>
 
     <!-- Form -->
@@ -39,37 +37,48 @@
             android:id="@+id/inputName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
-            android:layout_marginBottom="18dp"/>
+            android:layout_marginBottom="18dp"
+            android:hint="Nombre"/>
 
         <EditText
             android:id="@+id/inputDays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Días (ej: Lun y Mié)"
-            android:layout_marginBottom="18dp"/>
+            android:layout_marginBottom="18dp"
+            android:hint="Días (ej: Lun, Mié y Vie)"
+            android:inputType="textCapSentences"/>
 
         <EditText
-            android:id="@+id/inputTime"
+            android:id="@+id/inputStartTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Horario (ej: 15:00)"
-            android:layout_marginBottom="18dp"/>
+            android:layout_marginBottom="18dp"
+            android:hint="Hora inicio (HH:mm)"
+            android:inputType="time" />
+
+        <EditText
+            android:id="@+id/inputEndTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:hint="Hora fin (HH:mm)"
+            android:inputType="time" />
 
         <EditText
             android:id="@+id/inputPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Precio (ej: $ 20)"
-            android:layout_marginBottom="18dp"/>
+            android:layout_marginBottom="18dp"
+            android:hint="Precio"
+            android:inputType="numberDecimal"/>
 
         <EditText
             android:id="@+id/inputCapacity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Cupo (ej: 30)"
-            android:inputType="number"
-            android:layout_marginBottom="18dp"/>
+            android:layout_marginBottom="18dp"
+            android:hint="Cupo"
+            android:inputType="number" />
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -77,7 +86,6 @@
         style="@style/ButtonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar"
-        android:textAllCaps="false"
-        android:enabled="false"/>
+        android:text="Guardar cambios"
+        android:textAllCaps="false" />
 </LinearLayout>
