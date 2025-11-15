@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:padding="40dp">
 
-    <!-- Header -->
+    <!-- HEADER -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,19 +20,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Editar actividad"
+            android:text="Editar Actividad"
             android:paddingHorizontal="50dp"
             style="@style/MainTitle"/>
     </RelativeLayout>
 
-    <!-- Form -->
+    <!-- FORMULARIO (IGUAL AL DE REGISTRAR) -->
     <LinearLayout
+        android:id="@+id/actividadOptContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center_vertical">
 
+        <!-- Nombre -->
         <EditText
             android:id="@+id/inputName"
             android:layout_width="match_parent"
@@ -40,21 +42,113 @@
             android:layout_marginBottom="18dp"
             android:hint="Nombre"/>
 
-        <EditText
-            android:id="@+id/inputDays"
+        <!-- DÍAS DE LA SEMANA -->
+        <TextView
+            android:id="@+id/tvDaysLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:hint="Días (ej: Lun, Mié y Vie)"
-            android:inputType="textCapSentences"/>
+            android:text="Días de la actividad"
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="14sp" />
 
+        <LinearLayout
+            android:id="@+id/daysContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_days_container"
+            android:padding="10dp"
+            android:layout_marginBottom="18dp">
+
+            <!-- fila 1: Lun a Jue -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="4dp">
+
+                <CheckBox
+                    android:id="@+id/cbMon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lun"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/dark_green"
+                    android:layout_marginEnd="8dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbTue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mar"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/dark_green"
+                    android:layout_marginEnd="8dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbWed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mié"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/dark_green"
+                    android:layout_marginEnd="8dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbThu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jue"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/dark_green" />
+            </LinearLayout>
+
+            <!-- fila 2: Vie a Dom -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cbFri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vie"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/dark_green"
+                    android:layout_marginEnd="8dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbSat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sáb"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/dark_green"
+                    android:layout_marginEnd="8dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbSun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dom"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/dark_green" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Horas -->
         <EditText
             android:id="@+id/inputStartTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
             android:hint="Hora inicio (HH:mm)"
-            android:inputType="time" />
+            android:focusable="false"
+            android:clickable="true"
+            android:inputType="none" />
 
         <EditText
             android:id="@+id/inputEndTime"
@@ -62,8 +156,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
             android:hint="Hora fin (HH:mm)"
-            android:inputType="time" />
+            android:focusable="false"
+            android:clickable="true"
+            android:inputType="none" />
 
+        <!-- Precio -->
         <EditText
             android:id="@+id/inputPrice"
             android:layout_width="match_parent"
@@ -72,6 +169,7 @@
             android:hint="Precio"
             android:inputType="numberDecimal"/>
 
+        <!-- Cupo -->
         <EditText
             android:id="@+id/inputCapacity"
             android:layout_width="match_parent"
@@ -81,6 +179,7 @@
             android:inputType="number" />
     </LinearLayout>
 
+    <!-- BOTÓN GUARDAR -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSaveChanges"
         style="@style/ButtonPrimary"
