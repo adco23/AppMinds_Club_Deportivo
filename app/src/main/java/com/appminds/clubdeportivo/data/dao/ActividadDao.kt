@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.util.Log
 import com.appminds.clubdeportivo.data.db.DatabaseHelper
 import com.appminds.clubdeportivo.data.db.contracts.ActividadContract
+import com.appminds.clubdeportivo.data.db.contracts.ProfesorAttendanceContract
 import com.appminds.clubdeportivo.data.model.ActividadEntity
 
 class ActividadDao(context: Context) {
@@ -60,6 +61,22 @@ class ActividadDao(context: Context) {
         cursor.close()
         db.close()
         return list
+    }
+
+    fun existById(id: Int?): Boolean {
+        return dbHelper.readableDatabase.use { db ->
+            val cursor = db.query(
+                ActividadContract.TABLE_NAME,
+                arrayOf(ActividadContract.Columns.ID),
+                "${ProfesorAttendanceContract.Columns.ID} = ? ",
+                arrayOf(id.toString()),
+                null,
+                null,
+                null
+            )
+
+            cursor.use { it.count > 0 }
+        }
     }
 
     fun getById(id: Int?): ActividadEntity? {

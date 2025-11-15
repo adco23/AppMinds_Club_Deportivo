@@ -21,7 +21,7 @@ class DetailProfesorActivity : AppCompatActivity() {
     private val profesorDao by lazy { ProfesorDao(this) }
     private val activityDao by lazy { ActividadDao(this) }
     private lateinit var profesor: ProfesorEntity
-    private lateinit var activity: ActividadEntity
+    private var activity: ActividadEntity? =  null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,9 @@ class DetailProfesorActivity : AppCompatActivity() {
             }
 
         profesor = profesorDao.getByID(profesorID)
-        activity = activityDao.getById(profesor.activity)!!
+        if (activityDao.existById(profesor.activity)) {
+            activity = activityDao.getById(profesor.activity)!!
+        }
     }
 
     private fun initViews() {
@@ -52,7 +54,7 @@ class DetailProfesorActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.tvAddress).text = it.address
             findViewById<TextView>(R.id.tvPhone).text = it.phone
             findViewById<TableRow>(R.id.trIsSubstitute).isVisible = it.isSubstitute
-            findViewById<TextView>(R.id.tvActividad).text = activity.name
+            findViewById<TextView>(R.id.tvActividad).text = activity?.name ?: "-"
         }
     }
 

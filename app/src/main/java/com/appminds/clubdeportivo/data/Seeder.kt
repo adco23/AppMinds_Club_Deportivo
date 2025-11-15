@@ -1,9 +1,11 @@
 package com.appminds.clubdeportivo.data
 
 import android.content.Context
+import com.appminds.clubdeportivo.data.dao.ActividadDao
 import com.appminds.clubdeportivo.data.dao.ClientDao
 import com.appminds.clubdeportivo.data.dao.ProfesorDao
 import com.appminds.clubdeportivo.data.dao.UserDao
+import com.appminds.clubdeportivo.data.model.ActividadEntity
 import com.appminds.clubdeportivo.data.model.ClientEntity
 import com.appminds.clubdeportivo.data.model.ProfesorEntity
 import com.appminds.clubdeportivo.data.model.UserEntity
@@ -15,6 +17,7 @@ object Seeder {
         val userDao = UserDao(context)
         val clientDao = ClientDao(context)
         val profesorDao = ProfesorDao(context)
+        val actividadDao = ActividadDao(context)
 
 
         if (userDao.getAll().isEmpty()) {
@@ -41,17 +44,30 @@ object Seeder {
 
         if(!profesorDao.isNotEmpty()) {
             val profesorList = listOf(
-                ProfesorEntity(1, "María", "García", "12345678A", "Calle Mayor 15", "912345678", false, null),
-                ProfesorEntity(2, "Juan", "Martínez", "23456789B", "Avenida Libertad 23", "923456789", false, null),
-                ProfesorEntity(3, "Ana", "López", "34567890C", "Plaza España 8", "934567890", false, null),
-                ProfesorEntity(4, "Carlos", "Rodríguez", "45678901D", "Calle Sol 42", "945678901", false, null),
-                ProfesorEntity(5, "Laura", "Fernández", "56789012E", "Paseo Rosales 5", "956789012", false, null),
-                ProfesorEntity(6, "Pedro", "Sánchez", "67890123F", "Calle Luna 18", "967890123", true, null),
-                ProfesorEntity(7, "Elena", "Gómez", "78901234G", "Avenida Paz 30", "978901234", true, null),
-                ProfesorEntity(8, "Miguel", "Ruiz", "89012345H", "Calle Real 7", "989012345", true, null)
+                ProfesorEntity(1, "María", "García", "12345678A", "Calle Mayor 15", "912345678", false, 1),
+                ProfesorEntity(2, "Juan", "Martínez", "23456789B", "Avenida Libertad 23", "923456789", false, 2),
+                ProfesorEntity(3, "Ana", "López", "34567890C", "Plaza España 8", "934567890", false, 3),
+                ProfesorEntity(4, "Carlos", "Rodríguez", "45678901D", "Calle Sol 42", "945678901", false, 4),
+                ProfesorEntity(5, "Laura", "Fernández", "56789012E", "Paseo Rosales 5", "956789012", false, 5),
+                ProfesorEntity(6, "Pedro", "Sánchez", "67890123F", "Calle Luna 18", "967890123", true, 1),
+                ProfesorEntity(7, "Elena", "Gómez", "78901234G", "Avenida Paz 30", "978901234", true, 2),
+                ProfesorEntity(8, "Miguel", "Ruiz", "89012345H", "Calle Real 7", "989012345", true, 3)
             )
 
             profesorList.forEach { profesorDao.insert(it) }
+        }
+
+        if(actividadDao.getAll().isEmpty()) {
+            val mock = listOf(
+                ActividadEntity(1, "Natación", "Lunes, Miércoles, Viernes", "13:00", "15:00", 100.0, 10),
+                ActividadEntity(2, "Fútbol", "Martes, Jueves", "18:00", "20:00", 150.0, 20),
+                ActividadEntity(3, "Spinning", "Miércoles, Viernes", "16:00", "18:00", 120.0, 15),
+                ActividadEntity(4, "Yoga", "Lunes, Miércoles", "19:00", "21:00", 180.0, 12),
+                ActividadEntity(5, "Funcional", "Martes, Jueves", "17:00", "19:00", 90.0, 8),
+                ActividadEntity(6, "Musculación", "Martes, Jueves", "17:00", "19:00", 90.0, 8)
+            )
+
+            mock.forEach { actividadDao.insert(it) }
         }
     }
 }

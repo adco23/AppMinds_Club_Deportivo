@@ -31,8 +31,8 @@ class   UpdateProfesorActivity : AppCompatActivity() {
     private val activityDao by lazy { ActividadDao(this) }
     private lateinit var profesor: ProfesorEntity
     private lateinit var originalProfesor: ProfesorEntity
-    private lateinit var activity: ActividadEntity
-    private lateinit var originalActivity: ActividadEntity
+    private var activity: ActividadEntity? = null
+    private var originalActivity: ActividadEntity? = null
     private var activities: List<ActividadEntity> = emptyList()
     private lateinit var spinner: Spinner
 
@@ -65,13 +65,19 @@ class   UpdateProfesorActivity : AppCompatActivity() {
         cbIsSubstitute.setOnCheckedChangeListener { _, _ -> checkForChanges() }
 
         btnSave.setOnClickListener {
+            val selectedActivityId = if (spinner.selectedItemPosition > 0) {
+                activities[spinner.selectedItemPosition - 1].id
+            } else {
+                null
+            }
+
             profesor = profesor.copy(
                 firstname = inputFirstname.text.toString().trim(),
                 lastname = inputLastname.text.toString().trim(),
                 address = inputAddress.text.toString().trim(),
                 phone = inputPhone.text.toString().trim(),
                 isSubstitute = cbIsSubstitute.isChecked,
-                activity = activities.getOrNull(spinner.selectedItemPosition)?.id ?: profesor.activity
+                activity = selectedActivityId
             )
 
             AlertDialog.Builder(this)
@@ -123,11 +129,15 @@ class   UpdateProfesorActivity : AppCompatActivity() {
             inputPhone.setText( it.phone )
             cbIsSubstitute.isChecked = it.isSubstitute
 
-            val idx = activities.indexOfFirst { a -> a.id == it.activity }
-            if (idx >= 0) {
-                spinner.setSelection(idx)
+            if (it.activity != null) {
+                val idx = activities.indexOfFirst { a -> a.id == it.activity }
+                if (idx >= 0) {
+                    spinner.setSelection(idx + 1)
+                } else {
+                    spinner.setSelection(0)
+                }
             } else {
-                spinner.setSelection(-1)
+                spinner.setSelection(0)
             }
         }
 
@@ -137,7 +147,10 @@ class   UpdateProfesorActivity : AppCompatActivity() {
     private fun loadSpinner() {
         spinner = findViewById(R.id.activitiesDropdown)
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, activities.map{ item -> item.name })
+        val spinnerItems = mutableListOf("- Seleccionar actividad -")
+        spinnerItems.addAll(activities.map { it.name })
+
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerItems)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
@@ -161,13 +174,8 @@ class   UpdateProfesorActivity : AppCompatActivity() {
         originalProfesor = profesor.copy()
         activities = activityDao.getAll()
         val foundActivity = activities.find { it.id == profesor.activity }
-        if (foundActivity == null) {
-            showError("Actividad asociada no encontrada")
-            finish()
-            return
-        }
         activity = foundActivity
-        originalActivity = activity.copy()
+        activity?.let { originalActivity = it.copy() }
     }
 
     private fun showError(message: String) {
@@ -183,7 +191,7 @@ class   UpdateProfesorActivity : AppCompatActivity() {
                 originalProfesor.address != inputAddress.text.toString().trim() ||
                 originalProfesor.phone != inputPhone.text.toString().trim() ||
                 originalProfesor.isSubstitute != cbIsSubstitute.isChecked ||
-                originalActivity.id != selectedActivityId
+                originalProfesor.activity != selectedActivityId
 
         btnSave.isEnabled = hasChanged
     }
