@@ -1,14 +1,16 @@
 package com.appminds.clubdeportivo.adapters
 
+import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.appminds.clubdeportivo.R
 import com.appminds.clubdeportivo.models.OverdueClientDto
+import com.appminds.clubdeportivo.pagos.PagarCuotaActivity
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -50,9 +52,23 @@ class OverdueClientAdapter(private var list: List<OverdueClientDto>):
         holder.tvClientDue.text = outputFormat.format(date)
 
         holder.btnRegisterPayment.setOnClickListener {
-            Toast.makeText(holder.itemView.context, "Pago registrado", Toast.LENGTH_SHORT).show()
+            val context = holder.itemView.context
+
+            val intent = Intent(context, PagarCuotaActivity::class.java).apply {
+                putExtra("CLIENT_ID", client.id)
+            }
+
+            context.startActivity(intent)
+            if(context is Activity) {
+                context.finish()
+            }
         }
     }
 
     override fun getItemCount(): Int = list.size
+
+    fun updateList(newList: List<OverdueClientDto>) {
+        list = newList
+        notifyDataSetChanged()
+    }
 }
