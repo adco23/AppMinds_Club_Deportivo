@@ -3,7 +3,11 @@ package com.appminds.clubdeportivo.pagos
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.widget.*
+import android.util.Log
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -13,12 +17,13 @@ import com.appminds.clubdeportivo.data.dao.ClientDao
 import com.appminds.clubdeportivo.data.dao.PagoDao
 import com.appminds.clubdeportivo.data.model.ClientEntity
 import com.appminds.clubdeportivo.data.model.CuotaEntity
-import java.util.Calendar
-import java.util.concurrent.Executors
-import java.util.concurrent.ExecutorService
-import java.text.SimpleDateFormat
-import java.util.Locale
 import com.appminds.clubdeportivo.utils.formatTimestampToDateString
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class PagarCuotaActivity : AppCompatActivity() {
 
@@ -29,6 +34,10 @@ class PagarCuotaActivity : AppCompatActivity() {
     private var clientId: Int = -1
     private var currentClient: ClientEntity? = null
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
+
+    // Almacenar los timestamps calculados
+    private var fechaPagoMillis: Long? = null
+    private var fechaVencimientoMillis: Long? = null
 
     private lateinit var btnPagar: AppCompatButton
     private lateinit var inputMonto: EditText
@@ -109,24 +118,52 @@ class PagarCuotaActivity : AppCompatActivity() {
      * Muestra el selector de fechas y actualiza los campos de Pago
      */
     private fun showDatePickerDialog() {
-        val calendar = Calendar.getInstance()
+        // ⭐ Zona horaria de Argentina
+        val argentinaTimeZone = TimeZone.getTimeZone("America/Argentina/Buenos_Aires")
+        val calendar = Calendar.getInstance(argentinaTimeZone)
 
-        // Configura el diálogo con la fecha actual como valor por defecto
         val datePickerDialog = DatePickerDialog(
             this,
             { _, year, month, dayOfMonth ->
-                // La fecha seleccionada se devuelve aquí (month es 0-11)
+                // 1. Crear el Timestamp para la Fecha de Pago (normalizado a medianoche en hora Argentina)
+                val calendarPago = Calendar.getInstance(argentinaTimeZone).apply {
+                    set(Calendar.YEAR, year)
+                    set(Calendar.MONTH, month)
+                    set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    // ⭐ CLAVE: Normalizar a medianoche para evitar inconsistencias
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }
 
-                // 1. Crear el Timestamp para la Fecha de Pago
-                calendar.set(year, month, dayOfMonth)
-                val fechaPagoMillis = calendar.timeInMillis
+                fechaPagoMillis = calendarPago.timeInMillis
 
                 // 2. Calcular el Vencimiento (30 días después)
-                val fechaVencimientoMillis = calculateVtoTimestamp(fechaPagoMillis)
+                val calendarVto = Calendar.getInstance(argentinaTimeZone).apply {
+                    set(Calendar.YEAR, year)
+                    set(Calendar.MONTH, month)
+                    set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                    // ⭐ Sumar 30 días
+                    add(Calendar.DAY_OF_YEAR, 30)
+                }
+                fechaVencimientoMillis = calendarVto.timeInMillis
+
+                // Log para debugging
+                Log.i("DatePicker", "Fecha Pago MS: $fechaPagoMillis")
+                Log.i("DatePicker", "Fecha Vto MS: $fechaVencimientoMillis")
+
+                val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+                Log.i("DatePicker", "Fecha Pago ISO: ${sdf.format(fechaPagoMillis!!)}")
+                Log.i("DatePicker", "Fecha Vto ISO: ${sdf.format(fechaVencimientoMillis!!)}")
 
                 // 3. Formatear las fechas a String legible (DD/MM/AAAA)
-                val fechaPagoLegible = formatTimestampToDateString(fechaPagoMillis)
-                val fechaVtoLegible = formatTimestampToDateString(fechaVencimientoMillis)
+                val fechaPagoLegible = formatTimestampToDateString(fechaPagoMillis!!)
+                val fechaVtoLegible = formatTimestampToDateString(fechaVencimientoMillis!!)
 
                 // 4. Actualizar los EditText de la UI
                 inputFechaPago.setText(fechaPagoLegible)
@@ -152,15 +189,18 @@ class PagarCuotaActivity : AppCompatActivity() {
 
         // LISTENER PARA ABRIR EL CALENDARIO al hacer clic en el campo de fecha de pago
         inputFechaPago.setOnClickListener { showDatePickerDialog() }
-        // También es buena práctica que se abra al recibir el foco (opcional)
+
+        // También al recibir el foco
         inputFechaPago.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 showDatePickerDialog()
             }
-            // Listener para el botón de Confirmar Pago
-            btnPagar.setOnClickListener { handleFinalPayment() }
         }
+
+        // Listener para el botón de Confirmar Pago
+        btnPagar.setOnClickListener { handleFinalPayment() }
     }
+
     private fun loadClientData() {
         executor.execute {
             val clientEntity = clientDao.getClientByID(clientId)
@@ -179,10 +219,7 @@ class PagarCuotaActivity : AppCompatActivity() {
     }
 
     private fun displayClientInfo(client: ClientEntity) {
-        // 💡 Muestra el ID del cliente
         tvClientIdDisplay.text = "ID: ${client.id}"
-
-        // 💡 Muestra el Nombre y Apellido
         tvClientNameDisplay.text = "${client.firstname} ${client.lastname}"
     }
 
@@ -196,28 +233,6 @@ class PagarCuotaActivity : AppCompatActivity() {
     }
 
     /**
-     * Convierte un String de fecha (ej: "20/12/2025") a un Long (timestamp).
-     */
-    private fun convertDateToTimestamp(dateString: String): Long? {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return try {
-            dateFormat.parse(dateString)?.time
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    /**
-     * Calcula la fecha de vencimiento (30 días después de la fecha de pago).
-     */
-    private fun calculateVtoTimestamp(fechaPagoMillis: Long): Long {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = fechaPagoMillis
-        calendar.add(Calendar.DAY_OF_YEAR, 30)
-        return calendar.timeInMillis
-    }
-
-    /**
      * Maneja el clic de pagar cuota, ejecutando la transacción.
      */
     private fun handleFinalPayment() {
@@ -226,7 +241,6 @@ class PagarCuotaActivity : AppCompatActivity() {
         // 1. Captura de Datos y Validaciones
         val monto = inputMonto.text.toString().toDoubleOrNull()
         val formaPago = getSelectedFormaPago()
-        val fechaPagoText = inputFechaPago.text.toString()
 
         if (cliente == null || cliente.id == null) {
             Toast.makeText(this, "Error: Cliente no cargado.", Toast.LENGTH_SHORT).show()
@@ -241,30 +255,31 @@ class PagarCuotaActivity : AppCompatActivity() {
             return
         }
 
-        // 💡 CONVERSIÓN DE FECHA
-        val fechaPagoMillis = convertDateToTimestamp(fechaPagoText) // Usamos la función de conversión
-
-        if (fechaPagoMillis == null) {
+        // ⭐ Validar que las fechas hayan sido seleccionadas
+        if (fechaPagoMillis == null || fechaVencimientoMillis == null) {
             Toast.makeText(this, "Debe seleccionar una fecha de pago válida.", Toast.LENGTH_LONG).show()
-            return // Detener la ejecución si la fecha es inválida
+            return
         }
 
-        // 2. Preparación de Entidad
-        // El cálculo de vencimiento debe usar el Long que acabamos de obtener
-        val fechaVencimiento = calculateVtoTimestamp(fechaPagoMillis)
-
+        // 2. Preparación de Entidad con los timestamps ya calculados
         val nuevaCuota = CuotaEntity(
-            clienteId = cliente.id!!, // Aseguramos que el ID no sea nulo
-            fechaVencimiento = fechaVencimiento,
-            fechaPago = fechaPagoMillis,
+            clienteId = cliente.id!!,
+            fechaVencimiento = fechaVencimientoMillis!!,
+            fechaPago = fechaPagoMillis!!,
             monto = monto,
             formaPago = formaPago,
             promocion = ""
         )
 
+        // Log final antes de guardar
+        Log.i("PaymentTransaction", "Guardando fecha vencimiento: ${nuevaCuota.fechaVencimiento}")
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        Log.i("PaymentTransaction", "Fecha Vto ISO: ${sdf.format(nuevaCuota.fechaVencimiento)}")
+
         // 3. Ejecutar la TRANSACCIÓN en el hilo de fondo
-        executePaymentTransaction(nuevaCuota,
-            isSuccessful = { pagoDao.registrarPagoCuota(nuevaCuota, fechaVencimiento) },
+        executePaymentTransaction(
+            nuevaCuota = nuevaCuota,
+            isSuccessful = { pagoDao.registrarPagoCuota(nuevaCuota, fechaVencimientoMillis!!) },
             successMessage = "Cuota registrada y Socio actualizado a Activo.",
             nextActivity = PagoConfirmActivity::class.java
         )
@@ -273,7 +288,12 @@ class PagarCuotaActivity : AppCompatActivity() {
     /**
      * Función para manejar la ejecución del DAO en el hilo de fondo (Executor).
      */
-    private fun executePaymentTransaction(nuevaCuota: CuotaEntity, isSuccessful: () -> Boolean, successMessage: String, nextActivity: Class<*>) {
+    private fun executePaymentTransaction(
+        nuevaCuota: CuotaEntity,
+        isSuccessful: () -> Boolean,
+        successMessage: String,
+        nextActivity: Class<*>
+    ) {
         executor.execute {
             val result = isSuccessful()
 
@@ -281,19 +301,15 @@ class PagarCuotaActivity : AppCompatActivity() {
                 if (result) {
                     Toast.makeText(this, successMessage, Toast.LENGTH_LONG).show()
                     val intent = Intent(this, nextActivity).apply {
-                        // Datos esenciales:
                         putExtra("CLIENTE_ID", nuevaCuota.clienteId)
                         putExtra("MONTO", nuevaCuota.monto)
                         putExtra("FORMA_PAGO", nuevaCuota.formaPago)
                         putExtra("FECHA_PAGO_MILLIS", nuevaCuota.fechaPago)
-
-                        // 💡 DATOS ESPECÍFICOS DE CUOTA:
                         putExtra("FECHA_VTO_MILLIS", nuevaCuota.fechaVencimiento)
-                        putExtra("ES_CUOTA", true) // Indicador de concepto
+                        putExtra("ES_CUOTA", true)
                     }
                     startActivity(intent)
                     finish()
-
                 } else {
                     Toast.makeText(this, "Error en la transacción de cuota. El socio NO fue actualizado.", Toast.LENGTH_LONG).show()
                 }
