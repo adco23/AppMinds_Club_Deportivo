@@ -126,25 +126,52 @@ class ClientDao(context: Context) {
         return client
     }
 
-    fun getMosososByDate(date: Long): List<ClientEntity> {
+//    fun getMorososByDate(date: String?): List<ClientEntity> {
+//        val db = dbHelper.readableDatabase
+//        val cursor: Cursor = db.query(
+//            ClientContract.TABLE_NAME,
+//            null,
+//            "${ClientContract.Columns.FECHA_VENCIMIENTO} = ?",
+//            arrayOf(date.toString()),
+//            null, null, null, null
+//        )
+//
+//        val list = mutableListOf<ClientEntity>()
+//        with(cursor) {
+//            while (moveToNext()) {
+//                list.add( getCursorValues(cursor) )
+//            }
+//        }
+//        cursor.close()
+//        return list
+//    }
+    fun getMorososByDate(dateIso: String): List<ClientEntity> {
         val db = dbHelper.readableDatabase
+
+        // Consulta segura que convierte milisegundos a fecha ISO
         val cursor: Cursor = db.query(
             ClientContract.TABLE_NAME,
             null,
-            "${ClientContract.Columns.FECHA_VENCIMIENTO} = ?",
-            arrayOf(date.toString()),
+            "date(${ClientContract.Columns.FECHA_VENCIMIENTO} / 1000, 'unixepoch') = ?",
+            arrayOf(dateIso),
             null, null, null, null
         )
 
         val list = mutableListOf<ClientEntity>()
         with(cursor) {
             while (moveToNext()) {
-                list.add( getCursorValues(cursor) )
+                try {
+                    list.add(getCursorValues(cursor))
+                } catch (e: Exception) {
+                    e.printStackTrace() // Vemos si algún registro está mal
+                }
             }
         }
         cursor.close()
+        db.close()
         return list
     }
+
 
     private fun getCursorValues(cursor: Cursor): ClientEntity {
         return ClientEntity(
@@ -156,7 +183,7 @@ class ClientDao(context: Context) {
             phone = cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.TELEFONO)),
             address = cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.DOMICILIO)),
             registeredAt = cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.FECHA_ALTA)),
-            dueDate = cursor.getInt(cursor.getColumnIndexOrThrow(ClientContract.Columns.FECHA_VENCIMIENTO)),
+            dueDate = cursor.getLong(cursor.getColumnIndexOrThrow(ClientContract.Columns.FECHA_VENCIMIENTO)),
             isPhysicallyFit = cursor.getInt(cursor.getColumnIndexOrThrow(ClientContract.Columns.APTO_FISICO)) == 1,
             type = ClientTypeEnum.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.TIPO_CLIENTE))),
             status = ClientStatusEnum.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(ClientContract.Columns.ESTADO)))

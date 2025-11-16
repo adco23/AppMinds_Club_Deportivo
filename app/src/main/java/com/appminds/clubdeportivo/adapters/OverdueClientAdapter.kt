@@ -45,7 +45,7 @@ class OverdueClientAdapter(private var list: List<OverdueClientDto>):
 
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-        val date = inputFormat.parse(client.due)
+        val date = inputFormat.parse(client.dueDate)
         holder.tvClientDue.isAllCaps = true
         holder.tvClientDue.text = outputFormat.format(date)
 

@@ -12,7 +12,7 @@
     <string name="detail_profesor">Detalle</string>
     <string name="search_client">Buscar cliente</string>
     <string name="add_client">Registrar cliente</string>
-    <string name="overdue_client">Socios con cuota vencida</string>
+    <string name="overdue_client">Socios cuya cuota vence hoy</string>
     <string name="btn_back_description">Botón para volver atrás</string>
     <string name="buscar">Buscar</string>
     <string name="registrarpago">"Registrar\npago"</string>
