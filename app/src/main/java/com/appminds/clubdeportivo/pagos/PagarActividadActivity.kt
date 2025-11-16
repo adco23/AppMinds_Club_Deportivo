@@ -27,34 +27,27 @@ class PagarActividadActivity : AppCompatActivity() {
 
     private lateinit var clientDao: ClientDao
     private lateinit var pagoDao: PagoDao
-
     private lateinit var actividadDao: ActividadDao
-
     // Variables de estado
     private var clientId: Int = -1
     private var currentClient: ClientEntity? = null
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
-
-    // VISTAS DE PAGO DECLARADAS
+    // Vistas de pagos
     private lateinit var btnPagar: AppCompatButton
     private lateinit var btnBack: ImageButton
     private lateinit var inputMonto: EditText
     private lateinit var inputFechaPago: EditText
     private lateinit var inputActividadNombre: EditText
-
     // Vistas de Cliente
     private lateinit var tvClientIdDisplay: TextView
     private lateinit var tvClientNameDisplay: TextView
-
     // Checkboxes (Forma de Pago)
     private lateinit var cbIsEfectivo: AppCompatCheckBox
     private lateinit var cbIsTarjeta1: AppCompatCheckBox
     private lateinit var cbIsTarjeta3: AppCompatCheckBox
     private lateinit var cbIsTarjeta6: AppCompatCheckBox
-
-    // Agrupación de Checkboxes para la lógica de selección única
+    // Agrupación de Checkboxes para selección única
     private lateinit var formaPagoCheckboxes: List<AppCompatCheckBox>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,9 +68,7 @@ class PagarActividadActivity : AppCompatActivity() {
         super.onDestroy()
         executor.shutdown()
     }
-
-    // --- FUNCIONES DE INICIALIZACIÓN Y CARGA DE DATOS ---
-
+    // Iniciacilización y Carga de Datos
     private fun initData() {
         clientId = intent.getIntExtra("CLIENT_ID", -1)
 
@@ -86,7 +77,6 @@ class PagarActividadActivity : AppCompatActivity() {
             finish()
         }
     }
-
     private fun initViews() {
         btnPagar = findViewById(R.id.btnPagar)
         btnBack = findViewById(R.id.btnBack)
@@ -111,28 +101,24 @@ class PagarActividadActivity : AppCompatActivity() {
         formaPagoCheckboxes = listOf(cbIsEfectivo, cbIsTarjeta1, cbIsTarjeta3, cbIsTarjeta6)
     }
 
-    /**
-     * Muestra el selector de fechas y actualiza los campos de Pago
-     */
-    private fun showDatePickerDialog() {
+    // Muestra el selector de fechas y actualiza los campos de Pago
+       private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
 
-        // Configura el diálogo con la fecha actual como valor por defecto
+    // Configura la fecha actual como valor por defecto
         val datePickerDialog = DatePickerDialog(
             this,
             { _, year, month, dayOfMonth ->
-                // La fecha seleccionada se devuelve aquí (month es 0-11)
+                // Fecha seleccionada
 
-                // 1. Crear el Timestamp para la Fecha de Pago
+                // Timestamp para la Fecha de Pago
                 calendar.set(year, month, dayOfMonth)
                 val fechaPagoMillis = calendar.timeInMillis
 
-
-                // 3. Formatear las fechas a String legible (DD/MM/AAAA)
+                // Formatear las fechas a String legible (DD/MM/AAAA)
                 val fechaPagoLegible = formatTimestampToDateString(fechaPagoMillis)
 
-
-                // 4. Actualizar los EditText de la UI
+                // 4. Actualizar los EditText de la IU
                 inputFechaPago.setText(fechaPagoLegible)
 
             },
@@ -147,15 +133,15 @@ class PagarActividadActivity : AppCompatActivity() {
         formaPagoCheckboxes.forEach { checkbox ->
             checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
-                    // Desmarcar todos los demás
+                    // Desmarca los demás
                     formaPagoCheckboxes.filter { it != buttonView }.forEach { it.isChecked = false }
                 }
             }
         }
 
-        // LISTENER PARA ABRIR EL CALENDARIO al hacer clic en el campo de fecha de pago
+        // Listener para abrirl el calendario al hacer clic en fecha de pago
         inputFechaPago.setOnClickListener { showDatePickerDialog() }
-        // Se abra al recibir el foco
+        // Se abre al recibir el foco
         inputFechaPago.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 showDatePickerDialog()
@@ -165,7 +151,6 @@ class PagarActividadActivity : AppCompatActivity() {
         // Listener para el botón de Confirmar Pago
         btnPagar.setOnClickListener { handleFinalPayment() }
     }
-
 
     private fun loadClientData() {
         executor.execute {
@@ -185,28 +170,24 @@ class PagarActividadActivity : AppCompatActivity() {
     }
 
     private fun displayClientInfo(client: ClientEntity) {
-        // 💡 Muestra el ID del cliente
+        // Muestra el ID del cliente
         tvClientIdDisplay.text = "ID: ${client.id}"
 
-        // 💡 Muestra el Nombre y Apellido
+        // Muestra el Nombre y Apellido
         tvClientNameDisplay.text = "${client.firstname} ${client.lastname}"
     }
 
 
-    // --- LÓGICA DE TRANSACCIÓN ---
+    // Lógica de Transacción
 
-    /**
-     * Obtiene la forma de pago seleccionada del grupo de Checkboxes.
-     */
+    // Obtiene la forma de pago seleccionada del grupo de Checkboxes
     private fun getSelectedFormaPago(): String? {
         return formaPagoCheckboxes.find { it.isChecked }?.text?.toString()
     }
 
-
     private fun handleFinalPayment() {
 
         val cliente = currentClient
-
         val monto = inputMonto.text.toString().toDoubleOrNull()
         val formaPago = getSelectedFormaPago()
         val fechaPagoText = inputFechaPago.text.toString()
@@ -250,7 +231,7 @@ class PagarActividadActivity : AppCompatActivity() {
         // Relacionamos el pago con la actividad real
         val nuevoPago = PagoActividadEntity(
             idCliente = cliente.id!!,
-            idActividad = actividad.id!!,   // 👈 YA NO ES 1 HARDCODEADO
+            idActividad = actividad.id!!,
             fechaPago = fechaPagoMillis,
             formaPago = formaPago
         )
@@ -258,13 +239,12 @@ class PagarActividadActivity : AppCompatActivity() {
         executePaymentTransaction(
             nuevoPago = nuevoPago,
             monto = monto,
-            nombreActividad = actividad.name,   // 👈 lo mandamos al comprobante
+            nombreActividad = actividad.name,
             isSuccessful = { pagoDao.registrarPagoActividad(nuevoPago) },
             successMessage = "Pago de actividad registrado con éxito.",
             nextActivity = PagoConfirmActivity::class.java
         )
     }
-
 
     private fun executePaymentTransaction(
         nuevoPago: PagoActividadEntity,

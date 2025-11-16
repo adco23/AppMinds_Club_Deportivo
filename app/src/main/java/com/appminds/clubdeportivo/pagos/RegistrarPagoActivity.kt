@@ -21,22 +21,14 @@ import com.appminds.clubdeportivo.models.enums.ClientTypeEnum
 class RegistrarPagoActivity : AppCompatActivity() {
 
     private lateinit var clientDao: ClientDao
-
-    // 💡 Variable de estado para guardar la entidad encontrada (de la DB)
     private var foundClient: ClientEntity? = null
-
-    // Views de Búsqueda y Resultados
     private lateinit var searchInput: EditText
     private lateinit var searchBtn: AppCompatButton
     private lateinit var tlClientData: TableLayout
-
-    // Vistas de la tabla (Para rellenar los datos del cliente)
     private lateinit var tvClientId: TextView
     private lateinit var tvClientName: TextView
     private lateinit var tvClientType: TextView
     private lateinit var tvClientStatus: TextView
-
-    // Vistas de Navegación/Acción
     private lateinit var btnPagarCuota: AppCompatButton
     private lateinit var btnPagarActividad: AppCompatButton
 
@@ -53,18 +45,13 @@ class RegistrarPagoActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        // Vistas de Búsqueda (Igual a tu modelo)
         searchInput = findViewById(R.id.inputSearchClient)
         searchBtn = findViewById(R.id.btnSearchClient)
         tlClientData = findViewById(R.id.tlClientData)
-
-        // Vistas de la tabla (Datos del cliente)
         tvClientId = findViewById(R.id.tvClientIdP)
         tvClientName = findViewById(R.id.tvClientNameP)
         tvClientType = findViewById(R.id.tvClientTypeP)
         tvClientStatus = findViewById(R.id.tvClientStatusP)
-
-        // Vistas de Navegación/Acción
         btnPagarCuota = findViewById (R.id.btnPagarCuota)
         btnPagarActividad = findViewById (R.id.btnPagarActividad)
 
@@ -72,12 +59,10 @@ class RegistrarPagoActivity : AppCompatActivity() {
     }
 
     private fun setUpListeners() {
-        // Lógica de habilitación del botón idéntica a tu modelo
         val textWatcher: (Editable?) -> Unit = {
             searchBtn.isEnabled = searchInput.text.toString().trim().isNotEmpty()
         }
         searchInput.addTextChangedListener(afterTextChanged = textWatcher)
-
         searchBtn.setOnClickListener { showDataClient() }
     }
 
@@ -86,7 +71,7 @@ class RegistrarPagoActivity : AppCompatActivity() {
         val client: ClientEntity? = clientDao.getClientByDNI(dni)
 
         if(client == null) {
-            // Cliente no encontrado: ocultar todo
+            // Cliente no encontrado: oculta todo
             tlClientData.isVisible = false
             btnPagarCuota.isVisible = false
             btnPagarActividad.isVisible = false
@@ -95,16 +80,10 @@ class RegistrarPagoActivity : AppCompatActivity() {
             return
         }
 
-        // 💡 ASIGNACIÓN DE DATOS
         foundClient = client
-
-        // Aquí usamos !! si client.id es Int?
-        val clientIdSeguro = client.id // Si client.id es Int?, aquí lanza el error.
-
-        // 💡 SOLUCIÓN: Usar el ID con !! para la UI y la Navegación.
-
+        val clientIdSeguro = client.id
         // Rellenar vistas
-        tvClientId.text = client.id!!.toString() // Usamos !! en el ID para asegurar Int
+        tvClientId.text = client.id!!.toString()
         tvClientName.text = "${client.firstname} ${client.lastname}"
         tvClientType.text = client.type.toString()
         tvClientStatus.text = client.status.toString()
@@ -112,18 +91,15 @@ class RegistrarPagoActivity : AppCompatActivity() {
         // Mostrar tabla
         tlClientData.isVisible = true
 
-        // Lógica de negocio: Mostrar botones condicionalmente
+        // Mostrar botones condicionalmente
         val clientType = client.type
         btnPagarCuota.isVisible = clientType == ClientTypeEnum.SOCIO
         btnPagarActividad.isVisible = clientType == ClientTypeEnum.NO_SOCIO
 
-        // 💡 CORRECCIÓN DE LA LLAMADA FINAL:
-        // Aseguramos que el ID que pasamos a la función de navegación NO sea nulo.
         setupPaymentNavigationListeners(client.id!!, clientType)
     }
 
     private fun setupPaymentNavigationListeners(clientId: Int, clientType: ClientTypeEnum) {
-        // El operador '::class.java' es la referencia a la clase para el Intent
         if (clientType == ClientTypeEnum.SOCIO) {
             btnPagarCuota.setOnClickListener {
                 startPaymentActivity(PagarCuotaActivity::class.java, clientId)
@@ -139,7 +115,7 @@ class RegistrarPagoActivity : AppCompatActivity() {
 
     private fun startPaymentActivity(activityClass: Class<*>, clientId: Int) {
         val intent = Intent(this, activityClass).apply {
-            // Pasamos el ID del cliente a la siguiente Activity
+            // Paso ID del cliente a la siguiente Activity
             putExtra("CLIENT_ID", clientId)
         }
         startActivity(intent)

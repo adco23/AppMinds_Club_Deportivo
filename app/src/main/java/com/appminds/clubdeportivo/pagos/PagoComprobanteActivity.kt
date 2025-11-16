@@ -17,8 +17,6 @@ class PagoComprobanteActivity : AppCompatActivity() {
 
     private lateinit var clientDao: ClientDao
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
-
-    // VISTAS DEL COMPROBANTE DECLARADAS
     private lateinit var tvClienteId: TextView
     private lateinit var tvNombreyApellido: TextView
     private lateinit var tvConcepto: TextView
@@ -68,8 +66,6 @@ class PagoComprobanteActivity : AppCompatActivity() {
 
     private fun loadPaymentData() {
         val extras = intent.extras ?: return
-
-        // 1. CAPTURA DE DATOS RECIBIDOS DEL INTENT
         val clienteId = extras.getInt("CLIENTE_ID", -1)
         val monto = extras.getDouble("MONTO", 0.0)
         val fechaPagoMillis = extras.getLong("FECHA_PAGO_MILLIS", 0L)
@@ -77,17 +73,16 @@ class PagoComprobanteActivity : AppCompatActivity() {
         val esCuota = extras.getBoolean("ES_CUOTA", false)
         val nombreActividad = extras.getString("NOMBRE_ACTIVIDAD")
 
-        // 2. DETERMINAR CONCEPTO
         val conceptoTexto = if (esCuota) {
-            // Si es cuota, incluimos la fecha de vencimiento formateada
+            // Si es cuota se incluye la fecha de vencimiento formateada
             val fechaVto = formatTimestampToDateString(fechaVtoMillis)
             "Cuota Mensual"
         } else {
-            // Si es actividad, usamos el nombre de la actividad
+            // Si es actividad se usa el nombre de la actividad
             "Actividad Diaria: ${nombreActividad ?: "N/D"}"
         }
 
-        // 3. ASIGNACIÓN A LA UI
+        // Asignacion IU
         tvClienteId.text = "Cliente ID: $clienteId"
         tvConcepto.text = "Concepto: $conceptoTexto"
         tvMonto.text = "Monto: $${"%.2f".format(monto)}"
@@ -97,8 +92,7 @@ class PagoComprobanteActivity : AppCompatActivity() {
             tvFechaPago.text = "Fecha de Pago: $fechaPagoLegible"
         }
 
-        // 4. BÚSQUEDA DEL NOMBRE
-
+        // Datos del Cliente
         if (clienteId != -1) {
             executor.execute {
                 val clientEntity = clientDao.getClientByID(clienteId)

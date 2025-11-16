@@ -24,27 +24,22 @@ class PagarCuotaActivity : AppCompatActivity() {
 
     private lateinit var clientDao: ClientDao
     private lateinit var pagoDao: PagoDao
-
     // Variables de estado
     private var clientId: Int = -1
     private var currentClient: ClientEntity? = null
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
-
     private lateinit var btnPagar: AppCompatButton
     private lateinit var inputMonto: EditText
     private lateinit var inputFechaPago: EditText
     private lateinit var inputFechaVto: EditText
-
     // Vistas de Cliente
     private lateinit var tvClientIdDisplay: TextView
     private lateinit var tvClientNameDisplay: TextView
-
     // Checkboxes (Forma de Pago)
     private lateinit var cbIsEfectivo: AppCompatCheckBox
     private lateinit var cbIsTarjeta1: AppCompatCheckBox
     private lateinit var cbIsTarjeta2: AppCompatCheckBox
     private lateinit var cbIsTarjeta6: AppCompatCheckBox
-
     // Agrupación de Checkboxes para la lógica de selección única
     private lateinit var formaPagoCheckboxes: List<AppCompatCheckBox>
 
@@ -68,8 +63,7 @@ class PagarCuotaActivity : AppCompatActivity() {
         executor.shutdown()
     }
 
-    // --- FUNCIONES DE INICIALIZACIÓN Y CARGA DE DATOS ---
-
+    // Inicialización y Carga de datos
     private fun initData() {
         clientId = intent.getIntExtra("CLIENT_ID", -1)
 
@@ -78,11 +72,9 @@ class PagarCuotaActivity : AppCompatActivity() {
             finish()
         }
     }
-
     private fun initViews() {
         btnPagar = findViewById(R.id.btnPagar)
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
-
         // Inicialización de Views de Datos
         inputMonto = findViewById(R.id.inputMonto)
         inputFechaPago = findViewById(R.id.inputFechaPago)
@@ -91,44 +83,40 @@ class PagarCuotaActivity : AppCompatActivity() {
         inputFechaPago.keyListener = null
         inputFechaVto.keyListener = null
         inputFechaVto.isFocusable = false
-        // Mostrar el ID y Nombre
+        // Mostrar ID y Nombre
         tvClientIdDisplay = findViewById(R.id.tvClientIdDisplay)
         tvClientNameDisplay = findViewById(R.id.tvClientNameDisplay)
-
         // Inicialización de Checkboxes
         cbIsEfectivo = findViewById(R.id.cbIsEfectivo)
         cbIsTarjeta1 = findViewById(R.id.cbIsTarjeta1)
         cbIsTarjeta2 = findViewById(R.id.cbIsTarjeta3)
         cbIsTarjeta6 = findViewById(R.id.cbIsTarjeta6)
-
         // Agrupar Checkboxes
         formaPagoCheckboxes = listOf(cbIsEfectivo, cbIsTarjeta1, cbIsTarjeta2, cbIsTarjeta6)
     }
 
-    /**
-     * Muestra el selector de fechas y actualiza los campos de Pago
-     */
+    // Muestra el selector de fechas y actualiza los campos de Pago
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
 
-        // Configura el diálogo con la fecha actual como valor por defecto
+        // Configura la fecha actual como valor por defecto
         val datePickerDialog = DatePickerDialog(
             this,
             { _, year, month, dayOfMonth ->
-                // La fecha seleccionada se devuelve aquí (month es 0-11)
+                // Fecha seleccionada
 
-                // 1. Crear el Timestamp para la Fecha de Pago
+                // Crea el Timestamp para la Fecha de Pago
                 calendar.set(year, month, dayOfMonth)
                 val fechaPagoMillis = calendar.timeInMillis
 
-                // 2. Calcular el Vencimiento (30 días después)
+                // Calcula el Vencimiento (30 días después)
                 val fechaVencimientoMillis = calculateVtoTimestamp(fechaPagoMillis)
 
-                // 3. Formatear las fechas a String legible (DD/MM/AAAA)
+                // Formatear las fechas a String legible (DD/MM/AAAA)
                 val fechaPagoLegible = formatTimestampToDateString(fechaPagoMillis)
                 val fechaVtoLegible = formatTimestampToDateString(fechaVencimientoMillis)
 
-                // 4. Actualizar los EditText de la UI
+                // Actualizar los EditText de la IU
                 inputFechaPago.setText(fechaPagoLegible)
                 inputFechaVto.setText(fechaVtoLegible)
             },
@@ -138,21 +126,20 @@ class PagarCuotaActivity : AppCompatActivity() {
         )
         datePickerDialog.show()
     }
-
     private fun setUpListeners() {
         // Lógica de Checkbox: solo se puede seleccionar uno
         formaPagoCheckboxes.forEach { checkbox ->
             checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
-                    // Desmarcar todos los demás
+                    // Desmarca todos los demás
                     formaPagoCheckboxes.filter { it != buttonView }.forEach { it.isChecked = false }
                 }
             }
         }
 
-        // LISTENER PARA ABRIR EL CALENDARIO al hacer clic en el campo de fecha de pago
+        // Listener para abrir el calendario al hacer clic fecha de pago
         inputFechaPago.setOnClickListener { showDatePickerDialog() }
-        // También es buena práctica que se abra al recibir el foco (opcional)
+        // También al recibir el foco
         inputFechaPago.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 showDatePickerDialog()
@@ -177,28 +164,21 @@ class PagarCuotaActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun displayClientInfo(client: ClientEntity) {
-        // 💡 Muestra el ID del cliente
+        // Muestra el ID del cliente
         tvClientIdDisplay.text = "ID: ${client.id}"
-
-        // 💡 Muestra el Nombre y Apellido
+        // Muestra el Nombre y Apellido
         tvClientNameDisplay.text = "${client.firstname} ${client.lastname}"
     }
 
-    // --- LÓGICA DE NEGOCIO Y TRANSACCIÓN ---
+    // Lógica de Negocio y transacción
 
-    /**
-     * Obtiene la forma de pago seleccionada del grupo de Checkboxes.
-     */
-    private fun getSelectedFormaPago(): String? {
+    //Obtiene la forma de pago seleccionada de Checkboxes
+        private fun getSelectedFormaPago(): String? {
         return formaPagoCheckboxes.find { it.isChecked }?.text?.toString()
     }
-
-    /**
-     * Convierte un String de fecha (ej: "20/12/2025") a un Long (timestamp).
-     */
-    private fun convertDateToTimestamp(dateString: String): Long? {
+    //Convierte un String de fecha a un Long (timestamp).
+        private fun convertDateToTimestamp(dateString: String): Long? {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return try {
             dateFormat.parse(dateString)?.time
@@ -207,9 +187,7 @@ class PagarCuotaActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Calcula la fecha de vencimiento (30 días después de la fecha de pago).
-     */
+    //Calcula la fecha de vencimiento
     private fun calculateVtoTimestamp(fechaPagoMillis: Long): Long {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = fechaPagoMillis
@@ -217,13 +195,11 @@ class PagarCuotaActivity : AppCompatActivity() {
         return calendar.timeInMillis
     }
 
-    /**
-     * Maneja el clic de pagar cuota, ejecutando la transacción.
-     */
+    //Pagar cuota ejecuta la transacción
     private fun handleFinalPayment() {
         val cliente = currentClient
 
-        // 1. Captura de Datos y Validaciones
+        // Captura de Datos y Validaciones
         val monto = inputMonto.text.toString().toDoubleOrNull()
         val formaPago = getSelectedFormaPago()
         val fechaPagoText = inputFechaPago.text.toString()
@@ -241,20 +217,19 @@ class PagarCuotaActivity : AppCompatActivity() {
             return
         }
 
-        // 💡 CONVERSIÓN DE FECHA
+        // Conversion de Fecha
         val fechaPagoMillis = convertDateToTimestamp(fechaPagoText) // Usamos la función de conversión
 
         if (fechaPagoMillis == null) {
             Toast.makeText(this, "Debe seleccionar una fecha de pago válida.", Toast.LENGTH_LONG).show()
-            return // Detener la ejecución si la fecha es inválida
+            return
         }
 
-        // 2. Preparación de Entidad
-        // El cálculo de vencimiento debe usar el Long que acabamos de obtener
+        // El cálculo de vencimiento debe usar long
         val fechaVencimiento = calculateVtoTimestamp(fechaPagoMillis)
 
         val nuevaCuota = CuotaEntity(
-            clienteId = cliente.id!!, // Aseguramos que el ID no sea nulo
+            clienteId = cliente.id!!,
             fechaVencimiento = fechaVencimiento,
             fechaPago = fechaPagoMillis,
             monto = monto,
@@ -262,17 +237,13 @@ class PagarCuotaActivity : AppCompatActivity() {
             promocion = ""
         )
 
-        // 3. Ejecutar la TRANSACCIÓN en el hilo de fondo
+        // Ejecutar la transacción
         executePaymentTransaction(nuevaCuota,
             isSuccessful = { pagoDao.registrarPagoCuota(nuevaCuota, fechaVencimiento) },
             successMessage = "Cuota registrada y Socio actualizado a Activo.",
             nextActivity = PagoConfirmActivity::class.java
         )
     }
-
-    /**
-     * Función para manejar la ejecución del DAO en el hilo de fondo (Executor).
-     */
     private fun executePaymentTransaction(nuevaCuota: CuotaEntity, isSuccessful: () -> Boolean, successMessage: String, nextActivity: Class<*>) {
         executor.execute {
             val result = isSuccessful()
