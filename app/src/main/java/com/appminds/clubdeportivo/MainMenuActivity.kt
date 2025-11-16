@@ -18,7 +18,7 @@ import com.appminds.clubdeportivo.profesor.ProfesorMenuActivity
 import com.appminds.clubdeportivo.session.SessionManager
 
 class MainMenuActivity : AppCompatActivity() {
-    private val menuItems = listOf("Buscar cliente", "Registrar cliente", "Registrar pago", "Socios con cuotas vencidas", "Actividades", "Profesores")
+    private val menuItems = listOf("Buscar cliente", "Registrar cliente", "Registrar pago", "Socios cuyas cuotas vencen hoy", "Actividades", "Profesores")
     private lateinit var session: SessionManager
     private lateinit var tvHelloUser: TextView
     private lateinit var menuContainer: LinearLayout
@@ -66,7 +66,7 @@ class MainMenuActivity : AppCompatActivity() {
                 when (label) {
                     "Buscar cliente" -> goToSearchClient()
                     "Registrar cliente" -> goToAddClient()
-                    "Socios con cuotas vencidas" -> goToOverdueClient()
+                    "Socios cuyas cuotas vencen hoy" -> goToOverdueClient()
                     "Registrar pago" -> goToRegistrarPago()
                     "Actividades" -> this.goToActividadMenu()
                     "Profesores" -> this.goToProfesores()

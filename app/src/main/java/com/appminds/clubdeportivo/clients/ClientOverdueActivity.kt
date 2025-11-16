@@ -1,6 +1,7 @@
 package com.appminds.clubdeportivo.clients
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -11,8 +12,14 @@ import com.appminds.clubdeportivo.R
 import com.appminds.clubdeportivo.adapters.OverdueClientAdapter
 import com.appminds.clubdeportivo.data.dao.ClientDao
 import com.appminds.clubdeportivo.models.OverdueClientDto
-import com.appminds.clubdeportivo.models.PlantelCardDto
+import java.text.SimpleDateFormat
 import kotlin.getValue
+import java.util.Calendar
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+import java.util.TimeZone
 
 class ClientOverdueActivity : AppCompatActivity() {
     private val clienteDao by lazy { ClientDao(this) }
@@ -35,19 +42,39 @@ class ClientOverdueActivity : AppCompatActivity() {
         setContentView(R.layout.activity_client_overdue)
 
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
-        //TODO ajustar fecha que se pasa
-        val clientList = clienteDao.getMosososByDate(System.currentTimeMillis())
 
-        if (clientList.isEmpty()) {
-            Toast.makeText(this, "No hay clientes con cuotas vencidas en el día de hoy.", Toast.LENGTH_SHORT).show()
-        } else {
-            val list: MutableList<OverdueClientDto> = clientList.map { c ->
-                OverdueClientDto("${c.firstname} ${c.lastname}", c.dni, c.dueDate.toString(), "Vencido")
-            }.toMutableList()
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val dateIso = "%04d-%02d-%02d".format(year, month, day)
 
-            val rvClients = findViewById<RecyclerView>(R.id.rvOverdueClientList)
-            rvClients.layoutManager = LinearLayoutManager(this)
-            rvClients.adapter = OverdueClientAdapter(list)
-        }
+        val clientList = clienteDao.getMorososByDate(dateIso)
+
+        val list: MutableList<OverdueClientDto> = clientList.map { c ->
+//            val cal = Calendar.getInstance().apply { timeInMillis = c.dueDate }
+//            val formattedDate = "%04d-%02d-%02d".format(
+//                cal.get(Calendar.YEAR),
+//                cal.get(Calendar.MONTH) + 1,
+//                cal.get(Calendar.DAY_OF_MONTH)
+//            )
+
+        Log.i("CLIENTE", c.toString())
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+              sdf.timeZone = TimeZone.getTimeZone("America/Argentina/Buenos_Aires")
+//              sdf.format(c.dueDate)
+
+            OverdueClientDto(
+                name = "${c.firstname} ${c.lastname}",
+                dni = c.dni,
+                dueDate = sdf.format(c.dueDate),
+                status = "Vence hoy"
+            )
+        }.toMutableList()
+
+        val rvClients = findViewById<RecyclerView>(R.id.rvOverdueClientList)
+        rvClients.layoutManager = LinearLayoutManager(this)
+        rvClients.adapter = OverdueClientAdapter(list)
     }
 }
